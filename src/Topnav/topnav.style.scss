@@ -1,0 +1,23 @@
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.25rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+
+  & .link {
+    color: var(--color-white);
+    text-transform: capitalize;
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+
+  & .navigation {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
