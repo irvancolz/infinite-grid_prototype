@@ -1,0 +1,25 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+button {
+  appearance: none;
+  outline-color: transparent;
+  border-color: transparent;
+  cursor: pointer;
+}
+button.disabled {
+  pointer-events: none;
+}
+
+#canvas {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+}

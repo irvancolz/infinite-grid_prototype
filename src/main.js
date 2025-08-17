@@ -1,11 +1,11 @@
-import "./style.css";
+import "./index.scss";
+import HomePage from "./Pages/home/Home";
 import Router from "./Router";
 
-// Example usage
 const routes = [
   {
     path: "/",
-    view: () => `<h1>Home</h1><p>Welcome to the homepage!</p>`,
+    view: new HomePage().getHTML,
   },
   {
     path: "/about",
