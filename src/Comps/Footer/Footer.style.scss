@@ -1,0 +1,40 @@
+.footer {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 15, 200, 0) 0%,
+    rgba(0, 15, 200, 0.48) 39.82%,
+    #000fc8 65.06%,
+    #000 100%
+  );
+  padding: 50vh 1.25rem 2rem;
+
+  & .link {
+    color: var(--color-white);
+    text-transform: capitalize;
+    font-size: 2rem;
+    font-family: var(--font-heading);
+    font-weight: 400;
+  }
+
+  & .navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.25rem;
+  }
+
+  & .footer_title {
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 8.7rem;
+    font-family: var(--font-heading);
+    color: var(--color-white);
+    text-align: center;
+    translate: 0 2rem;
+
+    background: linear-gradient(180deg, #f9f7e0 0%, #393d61 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
