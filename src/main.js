@@ -1,4 +1,5 @@
 import "./index.scss";
+import GalleryPage from "./Pages/gallery/GalleryPage";
 import HomePage from "./Pages/home/Home";
 import Router from "./Router";
 
@@ -7,14 +8,10 @@ const routes = [
     path: "/",
     view: new HomePage(),
   },
-  // {
-  //   path: "/about",
-  //   view: () => `<h1>About</h1><p>This is a simple SPA router.</p>`,
-  // },
-  // {
-  //   path: "/contact",
-  //   view: () => `<h1>Contact</h1><p>Contact us at: example@email.com</p>`,
-  // },
+  {
+    path: "/gallery",
+    view: new GalleryPage(),
+  },
 ];
 
 const router = new Router(routes);

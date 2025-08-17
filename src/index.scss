@@ -5,6 +5,8 @@
 
 // components
 @use "./Topnav/topnav.style.scss";
+@use "./Comps/Card/Card.style.scss";
 
 // pages
 @use "./Pages/home/home.styles.scss";
+@use "./Pages/gallery/gallery_page.styles.scss";
