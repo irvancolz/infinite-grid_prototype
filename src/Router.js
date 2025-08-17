@@ -26,7 +26,8 @@ class Router {
   loadRoute(path) {
     const route = this.routes.find((r) => r.path === path);
     if (route) {
-      this.rootElem.innerHTML = route.view();
+      this.rootElem.innerHTML = null;
+      this.rootElem.append(route.view.getUI());
     } else {
       this.rootElem.innerHTML = "<h1>404 - Not Found</h1>";
     }

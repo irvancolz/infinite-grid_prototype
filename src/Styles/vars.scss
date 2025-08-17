@@ -45,6 +45,8 @@
 :root {
   --font-mona: "Mona Sans", sans-serif;
   --font-switzer: "Switzer", sans-serif;
+  --font-heading: var(--font-mona);
+  --font-text: var(var(--font-switzer));
   --font-f-body: var(--font-mona);
   --font-s-body: 16px;
   // colors

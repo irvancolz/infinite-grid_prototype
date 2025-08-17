@@ -1,0 +1,44 @@
+.hero {
+  position: relative;
+  & .hero_video {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: -1;
+  }
+  & .hero_title {
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 8.7rem;
+    font-family: var(--font-heading);
+    color: var(--color-white);
+    text-align: center;
+    margin: 2rem 1rem 70vh;
+
+    background: linear-gradient(180deg, #f9f7e0 0%, #393d61 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  & .hero_description_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-inline: 3.75rem;
+  }
+
+  & .hero_desc {
+    font-family: var(--font-text);
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: -0.72px;
+    text-transform: uppercase;
+    max-width: 10em;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
