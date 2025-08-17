@@ -1,3 +1,4 @@
+import About from "../../Comps/About/About";
 import Hero from "../../Comps/Hero/Hero";
 
 class HomePage {
@@ -14,6 +15,9 @@ class HomePage {
   _initSections() {
     this.hero = new Hero();
     this.$ui.append(this.hero.$ui);
+
+    this.about = new About();
+    this.$ui.append(this.about.$ui);
   }
   getUI() {
     return this.$ui;
