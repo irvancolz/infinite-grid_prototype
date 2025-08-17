@@ -1,4 +1,5 @@
 import About from "../../Comps/About/About";
+import Gallery from "../../Comps/Gallery/Gallery";
 import Hero from "../../Comps/Hero/Hero";
 
 class HomePage {
@@ -18,6 +19,9 @@ class HomePage {
 
     this.about = new About();
     this.$ui.append(this.about.$ui);
+
+    this.gallery = new Gallery();
+    this.$ui.append(this.gallery.$ui);
   }
   getUI() {
     return this.$ui;

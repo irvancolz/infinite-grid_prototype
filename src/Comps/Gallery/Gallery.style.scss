@@ -1,0 +1,36 @@
+.gallery {
+  padding: 1.25rem;
+
+  & .img_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  & .img {
+    flex-basis: calc(50% - 0.385rem);
+    max-width: calc(50% - 0.385rem);
+  }
+  & .img:first-child {
+    flex-basis: 100%;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 100%;
+  }
+  & .link {
+    display: block;
+    text-transform: uppercase;
+    margin-top: 1.8rem;
+    width: fit-content;
+    margin-inline: auto;
+
+    font-size: 3.8rem;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-weight: 900;
+
+    background: linear-gradient(180deg, #312573 0%, #5c46d9 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
