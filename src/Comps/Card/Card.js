@@ -14,8 +14,9 @@ class Card {
     this.texture = texture;
     this.rotation = new THREE.Vector3();
     this.camera = camera;
-    this.revealed = true;
+    this.revealed = false;
     this.src = src;
+    this.scrollSpeed = 1;
 
     this.imgViewer = ImageViewer.getInstance();
 
@@ -31,8 +32,6 @@ class Card {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.userData.id = this.id;
-
-    const yOffset = ((Math.abs(this.column) % 2) * PLANE.height) / 3;
 
     const x = this.column * PLANE.width + gap * (this.column - 1);
     const y = this.row * PLANE.height + gap * (this.row - 1);

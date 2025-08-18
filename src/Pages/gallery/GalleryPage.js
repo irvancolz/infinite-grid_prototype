@@ -22,7 +22,7 @@ class GalleryPage {
     this.pressed = false;
     this.selected = null;
     this.pointer = new THREE.Vector2();
-    this.track = new THREE.Vector2();
+    this.scroll = new THREE.Vector2();
     this.translation = new THREE.Vector3();
     this.scale = new THREE.Vector3(0.98, 0.98, 1);
     this.origin = new THREE.Vector3();
@@ -47,10 +47,10 @@ class GalleryPage {
       this.animating = true;
     });
     this.$ui.addEventListener("mousemove", (e) => {
-      // this._handleMouseMove(e);
+      this._handleMouseMove(e);
     });
     this.$ui.addEventListener("wheel", (e) => {
-      this._handleMouseMove(e);
+      this._handleScroll(e);
     });
     this.$ui.addEventListener("click", () => {
       // if (!this.selected) return;
@@ -114,21 +114,25 @@ class GalleryPage {
     this.renderer.setSize(this.SIZES.width, this.SIZES.height);
     this.renderer.setPixelRatio(this.SIZES.pixelRatio);
   }
-  _handleMouseMove(e) {
+  _handleScroll(e) {
     const speed = 0.05;
 
-    this.pointer.x = -e.deltaX * speed;
-    this.pointer.y = Math.min(e.deltaY, 100) * speed;
+    this.scroll.x = -e.deltaX * speed;
+    this.scroll.y = Math.min(e.deltaY, 100) * speed;
 
     this.translation
       .copy(
-        new THREE.Vector3(this.pointer.x, this.pointer.y, 0).multiply({
+        new THREE.Vector3(this.scroll.x, this.scroll.y, 0).multiply({
           x: frustumWidth,
           y: frustumHeight,
           z: 0,
         })
       )
       .add(this.origin);
+  }
+  _handleMouseMove(e) {
+    this.pointer.x = (e.clientX / this.SIZES.width) * 2 - 1;
+    this.pointer.y = -(e.clientY / this.SIZES.height) * 2 + 1;
   }
   _loop() {
     this.raycaster.setFromCamera(this.pointer, this.camera);

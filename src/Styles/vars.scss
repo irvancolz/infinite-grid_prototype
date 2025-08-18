@@ -53,4 +53,9 @@
   --color-black: #000;
   --color-white: #fff;
   --color-gray: rgba(0, 0, 0, 0.4);
+
+  // zIndex
+  --zCanvas: 0;
+  --zCard: 1;
+  --zImageViewer: 2;
 }

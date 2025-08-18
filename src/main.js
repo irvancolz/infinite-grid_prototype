@@ -1,3 +1,4 @@
+import ImageViewer from "./ImageViewer";
 import "./index.scss";
 import GalleryPage from "./Pages/gallery/GalleryPage";
 import HomePage from "./Pages/home/Home";
@@ -16,3 +17,5 @@ const routes = [
 
 const router = new Router(routes);
 router.loadInitialRoute(location.pathname);
+
+const imageViewer = new ImageViewer();
