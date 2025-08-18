@@ -8,5 +8,6 @@ window.addEventListener("load", async () => {
 });
 
 window.addEventListener("hashchange", async () => {
+  app.dispose();
   await app.render();
 });

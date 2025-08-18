@@ -128,6 +128,7 @@ class Card {
   dispose() {
     this.geometry.dispose();
     this.material.dispose();
+    document.body.removeChild(this.$ui);
   }
   handleClick() {
     this._toggle();

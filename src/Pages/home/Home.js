@@ -6,7 +6,6 @@ import Hero from "../../Comps/Hero/Hero";
 class HomePage {
   constructor() {
     this.sections = [];
-    this._init();
   }
   _init() {
     this.$ui = document.createElement("div");
@@ -30,6 +29,7 @@ class HomePage {
   getUI() {
     return this.$ui;
   }
+  dispose() {}
 }
 
 export default HomePage;

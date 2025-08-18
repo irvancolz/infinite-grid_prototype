@@ -18,9 +18,10 @@ const frustumHeight =
   2 * CAMERA_DISTANCE * Math.tan(THREE.MathUtils.degToRad(SIZES.fov / 2));
 const frustumWidth = frustumHeight * SIZES.aspect;
 
+const PLANE_RATIO = 853 / 1280;
 const PLANE = {
   width: frustumWidth / 4,
-  height: frustumHeight / 2,
+  height: ((frustumWidth / 4) * 1280) / 853,
 };
 
 export { PLANE, CONFIG, SIZES, CAMERA_DISTANCE, frustumHeight, frustumWidth };

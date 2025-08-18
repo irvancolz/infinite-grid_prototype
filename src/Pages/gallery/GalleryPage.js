@@ -15,6 +15,7 @@ class GalleryPage {
   constructor() {
     this.SIZES = new Sizes();
     this.TIME = new Time();
+    this.started = false;
 
     this.cards = [];
     this.raycaster = new THREE.Raycaster();
@@ -29,38 +30,11 @@ class GalleryPage {
     this.center = new THREE.Object3D();
     this.animating = false;
 
-    this._init();
-
     this.SIZES.on("resize", () => {
       this._resize();
     });
     this.TIME.on("tick", () => {
       this._loop();
-    });
-    this.$ui.addEventListener("mouseup", () => {
-      this.animating = false;
-    });
-    this.$ui.addEventListener("mouseleave", () => {
-      this.animating = false;
-    });
-    this.$ui.addEventListener("mousedown", () => {
-      this.animating = true;
-    });
-    this.$ui.addEventListener("mousemove", (e) => {
-      this._handleMouseMove(e);
-    });
-    this.$ui.addEventListener("wheel", (e) => {
-      this._handleScroll(e);
-    });
-    this.$ui.addEventListener("click", () => {
-      // if (!this.selected) return;
-      const filtered = this.cards.filter(
-        (el) => el.mesh.userData.id == this.selected
-      );
-
-      filtered.forEach((obj) => {
-        obj.handleClick();
-      });
     });
   }
   _initUI() {
@@ -88,6 +62,7 @@ class GalleryPage {
     this.renderer.render(this.scene, this.camera);
   }
   _init() {
+    this.started = true;
     this._initUI();
     this._init3D();
 
@@ -103,6 +78,31 @@ class GalleryPage {
     this.resources = new ResourcesLoader(this.images);
     this.resources.on("finish:loaded", () => {
       this._initCards();
+    });
+
+    this.$ui.addEventListener("mouseup", () => {
+      this.animating = false;
+    });
+    this.$ui.addEventListener("mouseleave", () => {
+      this.animating = false;
+    });
+    this.$ui.addEventListener("mousedown", () => {
+      this.animating = true;
+    });
+    this.$ui.addEventListener("mousemove", (e) => {
+      this._handleMouseMove(e);
+    });
+    this.$ui.addEventListener("wheel", (e) => {
+      this._handleScroll(e);
+    });
+    this.$ui.addEventListener("click", () => {
+      const filtered = this.cards.filter(
+        (el) => el.mesh.userData.id == this.selected
+      );
+
+      filtered.forEach((obj) => {
+        obj.handleClick();
+      });
     });
   }
   _resize() {
@@ -135,6 +135,7 @@ class GalleryPage {
     this.pointer.y = -(e.clientY / this.SIZES.height) * 2 + 1;
   }
   _loop() {
+    if (!this.started) return;
     this.raycaster.setFromCamera(this.pointer, this.camera);
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     if (intersects.length > 0) {
@@ -242,6 +243,12 @@ class GalleryPage {
 
   getUI() {
     return this.$ui;
+  }
+  dispose() {
+    this.cards.forEach((card) => {
+      this.scene.remove(card.mesh);
+      card.dispose();
+    });
   }
 }
 
