@@ -27,6 +27,7 @@ class GalleryPage {
     this.scale = new THREE.Vector3(0.98, 0.98, 1);
     this.origin = new THREE.Vector3();
     this.center = new THREE.Object3D();
+    this.animating = false;
 
     this._init();
 
@@ -36,14 +37,27 @@ class GalleryPage {
     this.TIME.on("tick", () => {
       this._loop();
     });
+    this.$ui.addEventListener("mouseup", () => {
+      this.animating = false;
+    });
+    this.$ui.addEventListener("mouseleave", () => {
+      this.animating = false;
+    });
+    this.$ui.addEventListener("mousedown", () => {
+      this.animating = true;
+    });
+    this.$ui.addEventListener("mousemove", (e) => {
+      // this._handleMouseMove(e);
+    });
     this.$ui.addEventListener("wheel", (e) => {
       this._handleMouseMove(e);
     });
     this.$ui.addEventListener("click", () => {
-      if (!this.selected) return;
+      // if (!this.selected) return;
       const filtered = this.cards.filter(
         (el) => el.mesh.userData.id == this.selected
       );
+
       filtered.forEach((obj) => {
         obj.handleClick();
       });
@@ -64,7 +78,7 @@ class GalleryPage {
     );
     this.camera.position.z = CAMERA_DISTANCE;
     this.camera.position.x = frustumWidth * 0.4;
-    this.camera.position.y = frustumHeight * 0.5;
+    this.camera.position.y = frustumHeight * 0.75;
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.$ui,

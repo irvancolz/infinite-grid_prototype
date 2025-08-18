@@ -4,12 +4,47 @@
   pointer-events: none;
   display: none;
   transform-origin: center center;
-}
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.29);
 
-.card.visible {
-  pointer-events: all;
-  cursor: pointer;
-  display: block;
+  &.visible {
+    pointer-events: all;
+    cursor: pointer;
+    display: block;
+  }
+
+  & .icon {
+    fill: var(--color-white);
+    color: var(--color-white);
+  }
+
+  & .btn {
+    position: absolute;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 1000px;
+    backdrop-filter: blur(3px);
+    background-color: #ffffff30;
+
+    &.btn-download {
+      bottom: 1rem;
+    }
+
+    &.btn-copy {
+      bottom: 4rem;
+    }
+  }
+
+  & .label {
+    color: var(--color-white);
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+  }
 }
 
 #image_viewer {
