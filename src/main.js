@@ -1,21 +1,12 @@
+import App from "./App";
 import ImageViewer from "./ImageViewer";
 import "./index.scss";
-import GalleryPage from "./Pages/gallery/GalleryPage";
-import HomePage from "./Pages/home/Home";
-import Router from "./Router";
 
-const routes = [
-  {
-    path: "/",
-    view: new HomePage(),
-  },
-  {
-    path: "/gallery",
-    view: new GalleryPage(),
-  },
-];
+const app = new App({ content: document.getElementById("app") });
+window.addEventListener("load", async () => {
+  await app.render();
+});
 
-const router = new Router(routes);
-router.loadInitialRoute(location.pathname);
-
-const imageViewer = new ImageViewer();
+window.addEventListener("hashchange", async () => {
+  await app.render();
+});

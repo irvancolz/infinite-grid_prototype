@@ -18,7 +18,7 @@ class Card {
     this.src = src;
     this.scrollSpeed = 1;
 
-    this.imgViewer = ImageViewer.getInstance();
+    this.imgViewer = new ImageViewer();
 
     this.init();
   }

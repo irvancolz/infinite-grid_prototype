@@ -20,7 +20,7 @@ class Gallery {
             class="img"
           />
         </div>
-      <a class="link" href="/gallery">see more</a>
+      <a class="link" href="#/gallery">see more</a>
         `;
   }
 }
