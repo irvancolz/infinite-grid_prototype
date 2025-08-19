@@ -17,6 +17,7 @@ class Card {
     this.revealed = false;
     this.src = src;
     this.scrollSpeed = 1;
+    this.$container = document.getElementById("app");
 
     this.imgViewer = new ImageViewer();
 
@@ -85,9 +86,8 @@ class Card {
       e.stopPropagation();
       this._hide();
     });
-    const container = document.getElementById("app");
 
-    container.append(this.$ui);
+    this.$container.appendChild(this.$ui);
 
     // button
     const $downloadBtn = this.$ui.querySelector(".btn-download");
@@ -112,7 +112,7 @@ class Card {
     this._initDOM();
   }
   update(position, scale) {
-    if (this.$ui) {
+    if (this.revealed) {
       const screen = position.clone().add(this.center);
       screen.project(this.camera);
       const x = (screen.x * 0.5 + 0.5) * SIZES.width - this.widthPx * 0.5;
@@ -127,9 +127,9 @@ class Card {
     this.mesh.position.copy(position).add(this.center);
   }
   dispose() {
+    this._hide();
     this.geometry.dispose();
     this.material.dispose();
-    document.body.removeChild(this.$ui);
   }
   handleClick() {
     this._toggle();

@@ -31,6 +31,8 @@ class GalleryPage {
     this.animating = false;
 
     this.SIZES.on("resize", () => {
+      if (!this.started) return;
+
       this._resize();
     });
     this.TIME.on("tick", () => {
@@ -245,6 +247,7 @@ class GalleryPage {
     return this.$ui;
   }
   dispose() {
+    this.started = false;
     this.cards.forEach((card) => {
       this.scene.remove(card.mesh);
       card.dispose();

@@ -2,7 +2,7 @@
 // Regular
 @font-face {
   font-family: "Mona Sans";
-  src: url("/public/font/mona-sans/Mona-Sans-Regular.ttf") format("ttf");
+  src: url("/font/mona-sans/Mona-Sans-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,7 @@
 // Medium
 @font-face {
   font-family: "Mona Sans";
-  src: url("/public/font/mona-sans/Mona-Sans-Medium.ttf") format("ttf");
+  src: url("/font/mona-sans/Mona-Sans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -18,7 +18,7 @@
 // Bold
 @font-face {
   font-family: "Mona Sans";
-  src: url("/public/font/mona-sans/Mona-Sans-Bold.ttf") format("ttf");
+  src: url("/font/mona-sans/Mona-Sans-Black.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -28,7 +28,7 @@
 // Regular
 @font-face {
   font-family: "Switzer";
-  src: url("/public/font/switzer/Switzer-Regular.otf") format("otf");
+  src: url("/font/switzer/Switzer-Regular.otf") format("otf");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -36,7 +36,7 @@
 // Medium
 @font-face {
   font-family: "Switzer";
-  src: url("/public/font/switzer/Switzer-Medium.otf") format("otf");
+  src: url("/font/switzer/Switzer-Medium.otf") format("otf");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -46,7 +46,7 @@
   --font-mona: "Mona Sans", sans-serif;
   --font-switzer: "Switzer", sans-serif;
   --font-heading: var(--font-mona);
-  --font-text: var(var(--font-switzer));
+  --font-text: var(--font-switzer);
   --font-f-body: var(--font-mona);
   --font-s-body: 16px;
   // colors

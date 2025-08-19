@@ -15,6 +15,7 @@
   "dependencies": {
     "copy-image-clipboard": "^2.1.2",
     "gsap": "^3.13.0",
+    "split-type": "^0.3.4",
     "three": "^0.179.1"
   }
 }
