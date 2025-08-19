@@ -26,11 +26,6 @@ class ImageViewer {
       e.stopPropagation();
     });
 
-    this.$title = document.createElement("p");
-    this.$title.className = "title";
-    this.setTitle(this.title);
-    this.$wrapper.append(this.$title);
-
     this.$img = document.createElement("img");
     this.$img.setAttribute("class", "img");
     this.setImage(this.image);
@@ -38,7 +33,9 @@ class ImageViewer {
 
     this.$closeBtn = document.createElement("button");
     this.$closeBtn.className = "btn btn-close";
-    this.$closeBtn.innerText = "x";
+    this.$closeBtn.innerHTML = `
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+    `;
 
     this.$closeBtn.addEventListener("click", (e) => {
       this.close();

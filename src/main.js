@@ -1,5 +1,5 @@
 import App from "./App";
-import ImageViewer from "./ImageViewer";
+import ImageViewer from "./Comps/ImageViewer/ImageViewer";
 import "./index.scss";
 
 const app = new App({ content: document.getElementById("app") });

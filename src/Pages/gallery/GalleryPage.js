@@ -89,10 +89,10 @@ class GalleryPage {
     this.$ui.addEventListener("mousedown", () => {
       this.animating = true;
     });
-    this.$ui.addEventListener("mousemove", (e) => {
+    document.addEventListener("mousemove", (e) => {
       this._handleMouseMove(e);
     });
-    this.$ui.addEventListener("wheel", (e) => {
+    document.addEventListener("wheel", (e) => {
       this._handleScroll(e);
     });
     this.$ui.addEventListener("click", () => {

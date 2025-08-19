@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { PLANE, SIZES } from "../../const";
 import { gsap } from "gsap";
 import { getHeightInPx, getWidthInPx } from "../../math";
-import ImageViewer from "../../ImageViewer";
+import ImageViewer from "../ImageViewer/ImageViewer";
 import { copyImageToClipboard } from "copy-image-clipboard";
 
 class Card {
@@ -85,8 +85,9 @@ class Card {
       e.stopPropagation();
       this._hide();
     });
+    const container = document.getElementById("app");
 
-    document.body.append(this.$ui);
+    container.append(this.$ui);
 
     // button
     const $downloadBtn = this.$ui.querySelector(".btn-download");
