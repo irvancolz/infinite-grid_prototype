@@ -1,12 +1,14 @@
 .topnav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.9rem 1.25rem;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
+  z-index: var(--zTopnav);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.25rem;
 
   & .link {
     color: var(--color-white);

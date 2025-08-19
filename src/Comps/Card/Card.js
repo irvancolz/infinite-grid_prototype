@@ -143,19 +143,11 @@ class Card {
   }
   _hide() {
     this.revealed = false;
-    this.rotation.y += Math.PI;
     this.$ui.classList.remove("visible");
-    gsap.to(this.mesh.rotation, {
-      y: this.rotation.y,
-    });
   }
   _reveal() {
     this.revealed = true;
-    this.rotation.y -= Math.PI;
     this.$ui.classList.add("visible");
-    gsap.to(this.mesh.rotation, {
-      y: this.rotation.y,
-    });
   }
   async _copyImg() {
     try {
