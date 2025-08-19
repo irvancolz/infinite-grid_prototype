@@ -10,6 +10,7 @@ class Hero {
     </div>
     <video class="hero_video" muted loop autoplay>
       <source src="/home_hero.mp4" type="video/mp4" />
+      <source src="/home_hero.webm" type="video/webm" />
     </video>
         `;
   }

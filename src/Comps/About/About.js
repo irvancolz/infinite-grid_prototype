@@ -34,14 +34,11 @@ class About {
       autoSplit: true,
 
       onSplit: (e) => {
-        console.log(e.lines);
-
         return gsap.from(e.lines, {
           color: "#00000066",
           stagger: 0.3,
           scrollTrigger: {
             target: textReffenece,
-            markers: true,
             scrub: true,
             start: "clamp(30% center)",
             end: "clamp(40% center)",
