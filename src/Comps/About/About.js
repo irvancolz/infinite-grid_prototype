@@ -1,3 +1,8 @@
+import gsap from "gsap";
+import { SplitText, ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(SplitText);
+gsap.registerPlugin(ScrollTrigger);
 class About {
   constructor() {
     this.$ui = document.createElement("div");
@@ -20,6 +25,29 @@ class About {
     this.$copyBtn = this.$ui.querySelector(".btn_copy");
     this.$copyBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(this.code);
+    });
+
+    const textReffenece = this.$ui.querySelector(".about_text");
+    SplitText.create(textReffenece, {
+      type: "words, lines",
+      linesClass: "line",
+      autoSplit: true,
+
+      onSplit: (e) => {
+        console.log(e.lines);
+
+        return gsap.from(e.lines, {
+          color: "#00000066",
+          stagger: 0.3,
+          scrollTrigger: {
+            target: textReffenece,
+            markers: true,
+            scrub: true,
+            start: "clamp(30% center)",
+            end: "clamp(40% center)",
+          },
+        });
+      },
     });
   }
 }
