@@ -34,8 +34,8 @@ class Card {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.userData.id = this.id;
 
-    const x = this.column * PLANE.width + gap * (this.column - 1);
-    const y = this.row * PLANE.height + gap * (this.row - 1);
+    const x = 0;
+    const y = this.row * PLANE.height;
 
     this.center = this.origin.clone().add({ x, y, z: 0 });
 

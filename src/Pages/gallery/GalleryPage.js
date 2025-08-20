@@ -24,11 +24,14 @@ class GalleryPage {
     this.selected = null;
     this.pointer = new THREE.Vector2();
     this.scroll = new THREE.Vector2();
+    this.animating = false;
+
     this.translation = new THREE.Vector3();
     this.scale = new THREE.Vector3(0.98, 0.98, 1);
     this.origin = new THREE.Vector3();
     this.center = new THREE.Object3D();
-    this.animating = false;
+
+    this.columns = [];
 
     this.SIZES.on("resize", () => {
       if (!this.started) return;
@@ -53,6 +56,7 @@ class GalleryPage {
       100
     );
     this.camera.position.z = CAMERA_DISTANCE;
+    // this.camera.position.z = 80;
     this.camera.position.x = frustumWidth * 0.4;
     this.camera.position.y = frustumHeight * 0.75;
 
@@ -168,76 +172,79 @@ class GalleryPage {
     this.renderer.render(this.scene, this.camera);
   }
 
-  _createCard(row, column, origin) {
+  _createCard(column, row, config) {
     const i = row * CONFIG.column + column + 1;
-
     const asset = this.images.find((el) => el.name == `img_${i}`);
-
     const texture = this.resources.resources[`img_${i}`].clone();
     texture.colorSpace = THREE.SRGBColorSpace;
+
+    const parent = this.columns.find((el) => {
+      return el.x == config.x && el.y == config.y;
+    });
 
     const tile = new Card({
       id: i,
       row,
       column,
-      origin,
+      origin: new THREE.Vector3(),
       texture,
       camera: this.camera,
       src: asset.path,
     });
 
-    this.scene.add(tile.mesh);
+    parent.group.add(tile.mesh);
     this.cards.push(tile);
   }
+  _initColumns(config) {
+    for (let i = 0; i < CONFIG.column; i++) {
+      const x = config.coord.x * CONFIG.column + i;
+      const y = config.coord.y;
+      const group = new THREE.Group();
+      const translation = config.pos.clone();
+      const factor = 1;
+
+      const offsetX = i * PLANE.width;
+      translation.add({ x: offsetX, y: 0, z: 0 });
+
+      this.columns.push({
+        x,
+        y,
+        group,
+        translation,
+        factor,
+        origin: translation.clone(),
+      });
+
+      group.position.copy(translation);
+      this.scene.add(group);
+    }
+  }
   _initCards() {
-    const lc = new THREE.Vector3().sub({
-      x: CONFIG.column * PLANE.width,
-      y: 0,
-      z: 0,
-    });
-    const tl = new THREE.Vector3().sub({
-      x: CONFIG.column * PLANE.width,
-      y: CONFIG.row * PLANE.height * -1,
-      z: 0,
-    });
-    const bl = new THREE.Vector3().sub({
-      x: CONFIG.column * PLANE.width,
-      y: CONFIG.row * PLANE.height,
-      z: 0,
-    });
-    const tc = new THREE.Vector3().sub({
-      x: 0,
-      y: CONFIG.row * PLANE.height * -1,
-      z: 0,
-    });
-    const cc = new THREE.Vector3();
-    const bc = new THREE.Vector3().sub({
-      x: 0,
-      y: CONFIG.row * PLANE.height,
-      z: 0,
-    });
-    const tr = new THREE.Vector3().add({
-      x: CONFIG.column * PLANE.width,
-      y: CONFIG.row * PLANE.height,
-      z: 0,
-    });
-    const rc = new THREE.Vector3().add({
-      x: CONFIG.column * PLANE.width,
-      y: 0,
-      z: 0,
-    });
-    const br = new THREE.Vector3().add({
-      x: CONFIG.column * PLANE.width,
-      y: CONFIG.row * PLANE.height * -1,
-      z: 0,
+    const coordnPos = [];
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+        const coord = new THREE.Vector3(-1, -1, 0).add({ x, y, z: 0 });
+
+        const pos = coord.clone().multiply({
+          x: CONFIG.column * PLANE.width,
+          y: CONFIG.row * PLANE.height,
+          z: 0,
+        });
+
+        coordnPos.push({ coord, pos });
+      }
+    }
+
+    coordnPos.forEach((e) => {
+      this._initColumns(e);
     });
 
-    const pos = [tl, lc, bl, tc, cc, bc, tr, rc, br];
-
-    pos.forEach((origin) => {
-      for (let y = 0; y < CONFIG.row; y++) {
-        for (let x = 0; x < CONFIG.column; x++) {
-          this._createCard(y, x, origin);
+    coordnPos.forEach((e) => {
+      for (let row = 0; row < CONFIG.row; row++) {
+        for (let column = 0; column < CONFIG.column; column++) {
+          const coordX = e.coord.x * CONFIG.column + column;
+          const coordY = e.coord.y;
+          this._createCard(column, row, { x: coordX, y: coordY });
         }
       }
     });
