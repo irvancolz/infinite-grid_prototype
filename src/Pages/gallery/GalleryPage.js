@@ -150,16 +150,31 @@ class GalleryPage {
       const deltaY = (col.translation.y - col.group.position.y) * 0.1;
       col.group.position.y += deltaY;
 
-      const tresshold = PLANE.height * CONFIG.row * 2;
-      const currentPos = col.group.position.y;
-      if (Math.abs(currentPos) > tresshold) {
-        const dir = currentPos / Math.abs(currentPos);
+      const deltaX = (col.translation.x - col.group.position.x) * 0.1;
+      col.group.position.x += deltaX;
 
-        col.group.position.y = tresshold * 0.5 * -dir;
+      const yTresshold = PLANE.height * CONFIG.row * 2;
+      const currentYPos = col.group.position.y;
+      if (Math.abs(currentYPos) > yTresshold) {
+        const dir = currentYPos / Math.abs(currentYPos);
 
-        const offset = (Math.abs(col.translation.y) - tresshold) * dir;
+        col.group.position.y = yTresshold * 0.5 * -dir;
+
+        const offset = (Math.abs(col.translation.y) - yTresshold) * dir;
 
         col.translation.y = col.group.position.y + offset;
+      }
+
+      const xTresshold = PLANE.width * CONFIG.column * 2;
+      const currentXPos = col.group.position.x;
+      if (Math.abs(currentXPos) > xTresshold) {
+        const dir = currentXPos / Math.abs(currentXPos);
+
+        col.group.position.x = xTresshold * 0.5 * -dir;
+
+        const offset = (Math.abs(col.translation.x) - xTresshold) * dir;
+
+        col.translation.x = col.group.position.x + offset;
       }
     });
 
