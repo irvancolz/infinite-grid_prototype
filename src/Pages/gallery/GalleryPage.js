@@ -126,15 +126,11 @@ class GalleryPage {
     this.scroll.x = -e.deltaX * speed;
     this.scroll.y = Math.min(e.deltaY, 100) * speed;
 
-    this.translation
-      .copy(
-        new THREE.Vector3(this.scroll.x, this.scroll.y, 0).multiply({
-          x: frustumWidth,
-          y: frustumHeight,
-          z: 0,
-        })
-      )
-      .add(this.origin);
+    this.columns.forEach((col, i) => {
+      col.translation.add(
+        new THREE.Vector3(this.scroll.x, this.scroll.y * col.factor, 0)
+      );
+    });
   }
   _handleMouseMove(e) {
     this.pointer.x = (e.clientX / this.SIZES.width) * 2 - 1;
@@ -150,25 +146,23 @@ class GalleryPage {
       this.selected = null;
     }
 
-    if (Math.abs(this.center.position.x) >= PLANE.width * CONFIG.column) {
-      const direction =
-        this.center.position.x / Math.abs(this.center.position.x);
-      this.translation.x -= Math.abs(this.center.position.x) * direction;
-      this.center.position.x -= PLANE.width * CONFIG.column * direction;
-    }
-    if (Math.abs(this.center.position.y) >= PLANE.height * CONFIG.row) {
-      const direction =
-        this.center.position.y / Math.abs(this.center.position.y);
-      this.translation.y -= Math.abs(this.center.position.y) * direction;
-      this.center.position.y -= PLANE.height * CONFIG.row * direction;
-    }
-    this.center.position.lerp(this.translation, 0.05);
-    this.center.scale.lerp(this.scale, 0.05);
+    this.columns.forEach((col, i) => {
+      const deltaY = (col.translation.y - col.group.position.y) * 0.1;
+      col.group.position.y += deltaY;
 
-    this.cards.forEach((card) => {
-      card.update(this.center.position, this.center.scale);
+      const tresshold = PLANE.height * CONFIG.row * 2;
+      const currentPos = col.group.position.y;
+      if (Math.abs(currentPos) > tresshold) {
+        const dir = currentPos / Math.abs(currentPos);
+
+        col.group.position.y = tresshold * 0.5 * -dir;
+
+        const offset = (Math.abs(col.translation.y) - tresshold) * dir;
+
+        col.translation.y = col.group.position.y + offset;
+      }
     });
-    this.origin.copy(this.center.position);
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -201,7 +195,7 @@ class GalleryPage {
       const y = config.coord.y;
       const group = new THREE.Group();
       const translation = config.pos.clone();
-      const factor = 1;
+      const factor = (i + 1) / CONFIG.column;
 
       const offsetX = i * PLANE.width;
       translation.add({ x: offsetX, y: 0, z: 0 });

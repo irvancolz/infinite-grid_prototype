@@ -112,19 +112,17 @@ class Card {
     this._initDOM();
   }
   update(position, scale) {
-    if (this.revealed) {
-      const screen = position.clone().add(this.center);
-      screen.project(this.camera);
-      const x = (screen.x * 0.5 + 0.5) * SIZES.width - this.widthPx * 0.5;
-      const y = (-screen.y * 0.5 + 0.5) * SIZES.height - this.heightPx * 0.5;
-
-      this.$ui.style.left = x + "px";
-      this.$ui.style.top = y + "px";
-
-      this.$ui.style.scale = `${this.mesh.scale.x} ${this.mesh.scale.y}`;
-    }
-    this.mesh.scale.copy(scale);
-    this.mesh.position.copy(position).add(this.center);
+    // if (this.revealed) {
+    //   const screen = position.clone().add(this.center);
+    //   screen.project(this.camera);
+    //   const x = (screen.x * 0.5 + 0.5) * SIZES.width - this.widthPx * 0.5;
+    //   const y = (-screen.y * 0.5 + 0.5) * SIZES.height - this.heightPx * 0.5;
+    //   this.$ui.style.left = x + "px";
+    //   this.$ui.style.top = y + "px";
+    //   this.$ui.style.scale = `${this.mesh.scale.x} ${this.mesh.scale.y}`;
+    // }
+    // this.mesh.scale.copy(scale);
+    // this.mesh.position.copy(position).add(this.center);
   }
   dispose() {
     this._hide();
