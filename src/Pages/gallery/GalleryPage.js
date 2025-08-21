@@ -20,8 +20,9 @@ class GalleryPage {
     this.cards = [];
     this.raycaster = new THREE.Raycaster();
 
-    this.pressed = false;
+    this.mousePressed = false;
     this.selected = null;
+    this.mouseStart = new THREE.Vector2();
     this.pointer = new THREE.Vector2();
     this.scroll = new THREE.Vector2();
 
@@ -37,6 +38,14 @@ class GalleryPage {
     this.TIME.on("tick", () => {
       this._loop();
     });
+  }
+  _handleMouseDown(e) {
+    this.mousePressed = true;
+    this.mouseStart.x = (e.clientX / this.SIZES.width) * 2 - 1;
+    this.mouseStart.y = -(e.clientY / this.SIZES.height) * 2 + 1;
+  }
+  _handleMouseUp() {
+    this.mousePressed = false;
   }
   _initUI() {
     this.$ui = document.createElement("canvas");
@@ -82,14 +91,14 @@ class GalleryPage {
       this._initCards();
     });
 
-    this.$ui.addEventListener("mouseup", () => {
-      this.animating = false;
+    document.addEventListener("mouseup", () => {
+      this._handleMouseUp();
     });
-    this.$ui.addEventListener("mouseleave", () => {
-      this.animating = false;
+    document.addEventListener("mouseleave", () => {
+      this._handleMouseUp();
     });
-    this.$ui.addEventListener("mousedown", () => {
-      this.animating = true;
+    document.addEventListener("mousedown", (e) => {
+      this._handleMouseDown(e);
     });
     document.addEventListener("mousemove", (e) => {
       this._handleMouseMove(e);
@@ -122,6 +131,8 @@ class GalleryPage {
     this.scroll.x = -Math.min(100, e.deltaX) * speed;
     this.scroll.y = Math.min(e.deltaY, 100) * speed * 5;
 
+    console.log(this.scroll.x);
+
     this.columns.forEach((col) => {
       col.translation.add(
         new THREE.Vector3(this.scroll.x, this.scroll.y * col.factor, 0)
@@ -131,6 +142,20 @@ class GalleryPage {
   _handleMouseMove(e) {
     this.pointer.x = (e.clientX / this.SIZES.width) * 2 - 1;
     this.pointer.y = -(e.clientY / this.SIZES.height) * 2 + 1;
+    console.log(this.pointer.x);
+
+    const brake = 0.5;
+    if (this.mousePressed) {
+      this.columns.forEach((col) => {
+        col.translation.add(
+          new THREE.Vector3(
+            (this.pointer.x - this.mouseStart.x) * brake,
+            (this.pointer.y - this.mouseStart.y) * brake * col.factor,
+            0
+          )
+        );
+      });
+    }
   }
   _loop() {
     if (!this.started) return;

@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { PLANE, SIZES } from "../../const";
-import { gsap } from "gsap";
 import { getHeightInPx, getWidthInPx } from "../../math";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import { copyImageToClipboard } from "copy-image-clipboard";
