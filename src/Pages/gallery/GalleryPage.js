@@ -18,11 +18,6 @@ class GalleryPage {
     this.TIME = new Time();
     this.started = false;
 
-    this.debug = new Pane({
-      title: "debug",
-      container: document.getElementById("debug"),
-    });
-
     this.config = {
       scrollX: 0.04,
       scrollY: 0.04,
@@ -30,29 +25,34 @@ class GalleryPage {
       swipeY: 0.5,
     };
 
-    const scroll = this.debug.addFolder({ title: "scroll speed" });
-    scroll.addBinding(this.config, "scrollX", {
-      min: 0.01,
-      max: 0.5,
-      step: 0.01,
-    });
-    scroll.addBinding(this.config, "scrollY", {
-      min: 0.01,
-      max: 0.5,
-      step: 0.01,
-    });
+    // this.debug = new Pane({
+    //   title: "debug",
+    //   container: document.getElementById("debug"),
+    // });
 
-    const swipe = this.debug.addFolder({ title: "swipe speed" });
-    swipe.addBinding(this.config, "swipeX", {
-      min: 0.1,
-      max: 2,
-      step: 0.1,
-    });
-    swipe.addBinding(this.config, "swipeY", {
-      min: 0.1,
-      max: 2,
-      step: 0.1,
-    });
+    // const scroll = this.debug.addFolder({ title: "scroll speed" });
+    // scroll.addBinding(this.config, "scrollX", {
+    //   min: 0.01,
+    //   max: 0.5,
+    //   step: 0.01,
+    // });
+    // scroll.addBinding(this.config, "scrollY", {
+    //   min: 0.01,
+    //   max: 0.5,
+    //   step: 0.01,
+    // });
+
+    // const swipe = this.debug.addFolder({ title: "swipe speed" });
+    // swipe.addBinding(this.config, "swipeX", {
+    //   min: 0.1,
+    //   max: 2,
+    //   step: 0.1,
+    // });
+    // swipe.addBinding(this.config, "swipeY", {
+    //   min: 0.1,
+    //   max: 2,
+    //   step: 0.1,
+    // });
 
     this.cards = [];
     this.raycaster = new THREE.Raycaster();
