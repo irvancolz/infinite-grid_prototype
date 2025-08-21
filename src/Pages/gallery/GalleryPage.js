@@ -337,6 +337,7 @@ class GalleryPage {
       this.scene.remove(card.mesh);
       card.dispose();
     });
+    this.columns.length = 0;
   }
 }
 
