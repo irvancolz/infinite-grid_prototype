@@ -276,7 +276,8 @@ class GalleryPage {
       const y = config.coord.y;
       const group = new THREE.Group();
       const translation = config.pos.clone();
-      const factor = (i + 1) / Math.pow(CONFIG.column, 2);
+      const factor = 0.0625 + i / 100;
+
       const cards = [];
 
       const offsetX = i * PLANE.width;
