@@ -119,8 +119,8 @@ class GalleryPage {
   _handleScroll(e) {
     const speed = 0.04;
 
-    this.scroll.x = Math.min(100, e.deltaX) * speed;
-    this.scroll.y = Math.min(e.deltaY, 100) * speed;
+    this.scroll.x = -Math.min(100, e.deltaX) * speed;
+    this.scroll.y = Math.min(e.deltaY, 100) * speed * 5;
 
     this.columns.forEach((col) => {
       col.translation.add(
