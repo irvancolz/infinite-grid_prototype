@@ -103,7 +103,9 @@ class Card {
     $expandBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       this.imgViewer.setImage(this.src);
-      this.imgViewer.open();
+      setTimeout(() => {
+        this.imgViewer.open();
+      }, 200);
     });
   }
   init() {

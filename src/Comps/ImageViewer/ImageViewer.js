@@ -47,8 +47,12 @@ class ImageViewer {
     document.body.append(this.$ui);
   }
   setImage(url) {
-    this.$img.setAttribute("src", url);
-    this.$ui.style.backgroundImage = `url(${url})`;
+    const tempImg = new Image();
+    tempImg.src = url;
+    tempImg.onload = () => {
+      this.$img.setAttribute("src", url);
+      this.$ui.style.backgroundImage = `url(${url})`;
+    };
   }
   setTitle(txt) {
     this.title = txt;
