@@ -15,6 +15,7 @@
   "dependencies": {
     "copy-image-clipboard": "^2.1.2",
     "gsap": "^3.13.0",
-    "three": "^0.179.1"
+    "three": "^0.179.1",
+    "tweakpane": "^4.0.5"
   }
 }

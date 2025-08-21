@@ -10,12 +10,49 @@ import Sizes from "../../Utils/Sizes";
 import Time from "../../Utils/Time";
 import Card from "../../Comps/Card/Card";
 import ResourcesLoader from "../../Utils/ResourcesLoader";
+import { Pane } from "tweakpane";
 
 class GalleryPage {
   constructor() {
     this.SIZES = new Sizes();
     this.TIME = new Time();
     this.started = false;
+
+    this.debug = new Pane({
+      title: "debug",
+      container: document.getElementById("debug"),
+    });
+
+    this.config = {
+      scrollX: 0.04,
+      scrollY: 0.04,
+      swipeX: 0.5,
+      swipeY: 0.5,
+    };
+
+    const scroll = this.debug.addFolder({ title: "scroll speed" });
+    scroll.addBinding(this.config, "scrollX", {
+      min: 0.01,
+      max: 0.5,
+      step: 0.01,
+    });
+    scroll.addBinding(this.config, "scrollY", {
+      min: 0.01,
+      max: 0.5,
+      step: 0.01,
+    });
+
+    const swipe = this.debug.addFolder({ title: "swipe speed" });
+    swipe.addBinding(this.config, "swipeX", {
+      min: 0.1,
+      max: 2,
+      step: 0.1,
+    });
+    swipe.addBinding(this.config, "swipeY", {
+      min: 0.1,
+      max: 2,
+      step: 0.1,
+    });
 
     this.cards = [];
     this.raycaster = new THREE.Raycaster();
@@ -128,10 +165,8 @@ class GalleryPage {
   _handleScroll(e) {
     const speed = 0.04;
 
-    this.scroll.x = -Math.min(100, e.deltaX) * speed;
-    this.scroll.y = Math.min(e.deltaY, 100) * speed * 5;
-
-    console.log(this.scroll.x);
+    this.scroll.x = -Math.min(100, e.deltaX) * this.config.scrollX;
+    this.scroll.y = Math.min(e.deltaY, 100) * this.config.scrollY * 5;
 
     this.columns.forEach((col) => {
       col.translation.add(
@@ -142,15 +177,16 @@ class GalleryPage {
   _handleMouseMove(e) {
     this.pointer.x = (e.clientX / this.SIZES.width) * 2 - 1;
     this.pointer.y = -(e.clientY / this.SIZES.height) * 2 + 1;
-    console.log(this.pointer.x);
 
     const brake = 0.5;
     if (this.mousePressed) {
       this.columns.forEach((col) => {
         col.translation.add(
           new THREE.Vector3(
-            (this.pointer.x - this.mouseStart.x) * brake,
-            (this.pointer.y - this.mouseStart.y) * brake * col.factor,
+            (this.pointer.x - this.mouseStart.x) * this.config.swipeX,
+            (this.pointer.y - this.mouseStart.y) *
+              this.config.swipeY *
+              col.factor,
             0
           )
         );
