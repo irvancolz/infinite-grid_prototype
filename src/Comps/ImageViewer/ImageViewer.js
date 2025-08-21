@@ -56,7 +56,6 @@ class ImageViewer {
   }
   setTitle(txt) {
     this.title = txt;
-    this.$title.innerText = txt;
   }
   open() {
     this.opened = true;
@@ -66,6 +65,8 @@ class ImageViewer {
     this.opened = false;
     this.image = null;
     this.$ui.className = "";
+    this.$img.setAttribute("src", "");
+    this.$ui.style.backgroundImage = `url("")`;
   }
 }
 

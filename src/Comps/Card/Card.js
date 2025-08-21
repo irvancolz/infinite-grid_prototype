@@ -103,9 +103,7 @@ class Card {
     $expandBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       this.imgViewer.setImage(this.src);
-      setTimeout(() => {
-        this.imgViewer.open();
-      }, 200);
+      this.imgViewer.open();
     });
   }
   init() {
@@ -146,6 +144,7 @@ class Card {
   _reveal() {
     this.revealed = true;
     this.$ui.classList.add("visible");
+    this.imgViewer.setImage(this.src);
   }
   async _copyImg() {
     try {
