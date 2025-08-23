@@ -1,0 +1,86 @@
+#loader {
+  display: none;
+  pointer-events: none;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--zLoader);
+  font-size: 48px;
+  color: #fff;
+  font-weight: 400;
+  position: relative;
+  background-color: var(--color-black);
+  font-family: var(--font-text);
+
+  &.visible {
+    display: inline-block;
+  }
+
+  &::after,
+  &::before {
+    position: absolute;
+    top: 50%;
+  }
+
+  &::before {
+    left: 50%;
+    translate: -50% -50%;
+    content: "";
+    animation: 2s print linear alternate infinite;
+  }
+  &::after {
+    content: "";
+    right: -4px;
+    translate: 0% -50%;
+    width: 2px;
+    height: 1.3em;
+    background: var(--color-white);
+    opacity: 0.8;
+    animation: 1s blink steps(2) infinite;
+  }
+}
+
+@keyframes blink {
+  0% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes print {
+  0% {
+    content: "L";
+  }
+  10% {
+    content: "Lo";
+  }
+  20% {
+    content: "Loa";
+  }
+  30% {
+    content: "Load";
+  }
+  40% {
+    content: "Loadi";
+  }
+  50% {
+    content: "Loadin";
+  }
+  60% {
+    content: "Loading";
+  }
+  70% {
+    content: "Loading.";
+  }
+  80% {
+    content: "Loading..";
+  }
+  90%,
+  100% {
+    content: "Loading...";
+  }
+}

@@ -5,6 +5,7 @@ class App {
   constructor({ content }) {
     this._content = content;
     this._prevUrl = null;
+    this.loader = document.getElementById("loader");
   }
 
   async render() {
@@ -14,6 +15,7 @@ class App {
 
     this._content.append(page.getUI());
     this._prevUrl = url;
+    this.loader.classList.remove("visible");
   }
   dispose() {
     if (this._prevUrl) {
@@ -21,6 +23,7 @@ class App {
       this._content.removeChild(prevPage.getUI());
       prevPage.dispose();
     }
+    this.loader.classList.add("visible");
   }
 }
 
