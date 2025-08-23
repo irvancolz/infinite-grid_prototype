@@ -5,6 +5,7 @@ import ImageViewer from "../ImageViewer/ImageViewer";
 import { copyImageToClipboard } from "copy-image-clipboard";
 
 class Card {
+  #ALLOWED_COPY_FORMAT = ["png", "jpg", "jpeg"];
   constructor({ row, column, origin, texture, id, camera, src }) {
     this.id = id;
     this.row = row;
@@ -44,6 +45,11 @@ class Card {
     this.$ui = document.createElement("div");
     this.$ui.className = "card";
 
+    const splitted = this.src.split(".");
+    const format = splitted[splitted.length - 1];
+
+    this.allowedToCopy = this.#ALLOWED_COPY_FORMAT.includes(format);
+
     this.$ui.innerHTML = `
       <button class="btn btn-expand">
       <svg class="icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +60,9 @@ class Card {
       </svg>
     </button>
 
-    <button class="btn btn-copy">
+    ${
+      this.allowedToCopy &&
+      `    <button class="btn btn-copy">
       <svg class="icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M8.325 17.0625H5.175C2.2425 17.0625 0.9375 15.7575 0.9375 12.825V9.675C0.9375 6.7425 2.2425 5.4375 5.175 5.4375H8.325C11.2575 5.4375 12.5625 6.7425 12.5625 9.675V12.825C12.5625 15.7575 11.2575 17.0625 8.325 17.0625ZM5.175 6.5625C2.85 6.5625 2.0625 7.35 2.0625 9.675V12.825C2.0625 15.15 2.85 15.9375 5.175 15.9375H8.325C10.65 15.9375 11.4375 15.15 11.4375 12.825V9.675C11.4375 7.35 10.65 6.5625 8.325 6.5625H5.175Z" fill="white"/>
         <path d="M12.825 12.5625H12C11.6925 12.5625 11.4375 12.3075 11.4375 12V9.675C11.4375 7.35 10.65 6.5625 8.325 6.5625H6C5.6925 6.5625 5.4375 6.3075 5.4375 6V5.175C5.4375 2.2425 6.7425 0.9375 9.675 0.9375H12.825C15.7575 0.9375 17.0625 2.2425 17.0625 5.175V8.325C17.0625 11.2575 15.7575 12.5625 12.825 12.5625ZM12.5625 11.4375H12.825C15.15 11.4375 15.9375 10.65 15.9375 8.325V5.175C15.9375 2.85 15.15 2.0625 12.825 2.0625H9.675C7.35 2.0625 6.5625 2.85 6.5625 5.175V5.4375H8.325C11.2575 5.4375 12.5625 6.7425 12.5625 9.675V11.4375Z" fill="white"/>
@@ -62,7 +70,8 @@ class Card {
       <span class="label">
         copy
       </span>
-    </button>
+    </button>`
+    }
 
     <button class="btn btn-download">
       <svg class="icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,11 +103,13 @@ class Card {
       e.stopPropagation();
       this._downloadImg();
     });
-    this.$copyBtn = this.$ui.querySelector(".btn-copy");
-    this.$copyBtn.addEventListener("click", async (e) => {
-      e.stopPropagation();
-      await this._copyImg();
-    });
+    if (this.allowedToCopy) {
+      this.$copyBtn = this.$ui.querySelector(".btn-copy");
+      this.$copyBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        await this._copyImg();
+      });
+    }
     const $expandBtn = this.$ui.querySelector(".btn-expand");
     $expandBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -140,7 +151,9 @@ class Card {
   _hide() {
     this.revealed = false;
     this.$ui.classList.remove("visible");
-    this.$copyBtn.classList.remove("copied");
+    if (this.$copyBtn) {
+      this.$copyBtn.classList.remove("copied");
+    }
   }
   _reveal() {
     this.revealed = true;
