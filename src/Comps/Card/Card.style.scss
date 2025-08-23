@@ -11,6 +11,17 @@
     pointer-events: all;
     cursor: pointer;
     display: block;
+    transition: background 0.3s ease-in-out;
+
+    &:hover {
+      background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0) 31.9%,
+        rgba(0, 0, 0, 0) 83.48%,
+        rgba(0, 0, 0, 0.32) 100%
+      );
+    }
   }
 
   & .icon {
@@ -19,15 +30,20 @@
   }
 
   & .btn {
+    font-family: var(--font-heading);
     position: absolute;
     right: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem;
+    padding: 0.5rem;
+    font-feature-settings: "liga" off, "clig" off;
+    font-weight: 500;
     border-radius: 1000px;
     z-index: 1;
+    font-size: 0.75rem;
     background-image: linear-gradient(#fff, #6c6c6c29 2%, #dbdbdb38 98%, #fff);
+    letter-spacing: -0.2px;
 
     &::before {
       content: "";
@@ -65,7 +81,7 @@
         gap: 0.5rem;
         padding: 0.25rem 0.75rem;
         border-radius: 1000px;
-        background-color: #ffffff30;
+        background-color: #00000030;
         color: var(--color-white);
         display: none;
       }
