@@ -1,4 +1,8 @@
 class ImageViewer {
+  #IMAGE_FORMAT = ["png", "jpg", "jpeg"];
+  #VIDEO_FORMAT = ["mp4", "webm"];
+  #IMAGE = "image";
+  #VIDEO = "video";
   static instance;
 
   static getInstance() {
@@ -11,8 +15,9 @@ class ImageViewer {
     ImageViewer.instance = this;
 
     this.opened = false;
-    this.image = "./1.jpg";
+    this.src = "./1.jpg";
     this.title = "lorem ipsum dolor";
+    this.assetType = this.#IMAGE;
     this._init();
   }
   _init() {
@@ -26,10 +31,9 @@ class ImageViewer {
       e.stopPropagation();
     });
 
-    this.$img = document.createElement("img");
-    this.$img.setAttribute("class", "img");
-    this.setImage(this.image);
+    this._initAssetsWrapper();
     this.$wrapper.appendChild(this.$img);
+    this.setImage(this.src);
 
     this.$closeBtn = document.createElement("button");
     this.$closeBtn.className = "btn btn-close";
@@ -47,12 +51,21 @@ class ImageViewer {
     document.body.append(this.$ui);
   }
   setImage(url) {
-    const tempImg = new Image();
-    tempImg.src = url;
-    tempImg.onload = () => {
-      this.$img.setAttribute("src", url);
-      this.$ui.style.backgroundImage = `url(${url})`;
-    };
+    this.src = url;
+    const splitted = url.split(".");
+    const format = splitted[splitted.length - 1];
+
+    const type = this._checkType(format);
+
+    if (type != this.assetType) {
+      this.assetType = type;
+      const oldAssets = this.assetType == this.#IMAGE ? this.$video : this.$img;
+      this.$wrapper.removeChild(oldAssets);
+
+      const newAssets = this.assetType == this.#IMAGE ? this.$img : this.$video;
+      this.$wrapper.appendChild(newAssets);
+    }
+    this._displayAsset();
   }
   setTitle(txt) {
     this.title = txt;
@@ -63,10 +76,39 @@ class ImageViewer {
   }
   close() {
     this.opened = false;
-    this.image = null;
+    this.src = null;
     this.$ui.className = "";
     this.$img.setAttribute("src", "");
     this.$ui.style.backgroundImage = `url("")`;
+  }
+  _initAssetsWrapper() {
+    this.$img = document.createElement("img");
+    this.$img.setAttribute("class", "img");
+
+    this.$video = document.createElement("video");
+    this.$video.className = "img";
+    this.$video.muted = true;
+    this.$video.loop = true;
+    this.$video.autoplay = true;
+  }
+
+  _displayAsset() {
+    this.$asset = this.assetType == this.#IMAGE ? this.$img : this.$video;
+    this.$asset.src = this.src;
+    this.$ui.style.backgroundImage = `url(${
+      this.assetType == this.#IMAGE ? this.src : ""
+    })`;
+    if (this.assetType == this.#VIDEO) this.$asset.play();
+  }
+  _checkType(format) {
+    if (this.#IMAGE_FORMAT.includes(format)) {
+      return this.#IMAGE;
+    } else if (this.#VIDEO_FORMAT.includes(format)) {
+      return this.#VIDEO;
+    } else {
+      console.error("invalid assets to preview :", format);
+      return "";
+    }
   }
 }
 
