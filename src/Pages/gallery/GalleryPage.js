@@ -11,7 +11,6 @@ import Time from "../../Utils/Time";
 import Card from "../../Comps/Card/Card";
 import ResourcesLoader from "../../Utils/ResourcesLoader";
 import resources from "../../resources.json";
-import { Pane } from "tweakpane";
 
 class GalleryPage {
   constructor() {
@@ -25,35 +24,6 @@ class GalleryPage {
       swipeX: 0.5,
       swipeY: 0.5,
     };
-
-    // this.debug = new Pane({
-    //   title: "debug",
-    //   container: document.getElementById("debug"),
-    // });
-
-    // const scroll = this.debug.addFolder({ title: "scroll speed" });
-    // scroll.addBinding(this.config, "scrollX", {
-    //   min: 0.01,
-    //   max: 0.5,
-    //   step: 0.01,
-    // });
-    // scroll.addBinding(this.config, "scrollY", {
-    //   min: 0.01,
-    //   max: 0.5,
-    //   step: 0.01,
-    // });
-
-    // const swipe = this.debug.addFolder({ title: "swipe speed" });
-    // swipe.addBinding(this.config, "swipeX", {
-    //   min: 0.1,
-    //   max: 2,
-    //   step: 0.1,
-    // });
-    // swipe.addBinding(this.config, "swipeY", {
-    //   min: 0.1,
-    //   max: 2,
-    //   step: 0.1,
-    // });
 
     this.cards = [];
     this.raycaster = new THREE.Raycaster();
