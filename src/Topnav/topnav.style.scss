@@ -8,13 +8,37 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.9rem 1.25rem;
+  gap: 1.5rem;
+  padding: 1.9rem 1.25rem;
 
   & .link {
+    position: relative;
     color: var(--color-white);
     text-transform: capitalize;
     font-size: 1.25rem;
     font-weight: 400;
+
+    &.coming_soon::after {
+      display: none;
+      content: "coming soon";
+      left: 50%;
+      top: calc(-100% - 0.5rem);
+      translate: -50% 0;
+      position: absolute;
+      font-family: var(--font-text);
+      font-weight: 400;
+      padding: 0.1rem 0.45rem;
+      border-radius: 1000px;
+      background-color: #ffffff21;
+      backdrop-filter: 1px;
+      text-transform: capitalize;
+      font-size: 0.625rem;
+      white-space: nowrap;
+    }
+
+    &.coming_soon.clicked::after {
+      display: block;
+    }
   }
 
   & .navigation {
