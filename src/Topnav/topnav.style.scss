@@ -8,15 +8,78 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.9rem 1.25rem;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    gap: 1.5rem;
+    padding: 1.9rem 1.25rem;
+    flex-direction: row;
+    height: max-content;
+    background-color: transparent;
+  }
+
+  & .header,
+  & .navigation {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-black);
+
+    @media (min-width: 768px) {
+      padding: 0 0;
+      width: fit-content;
+      flex-grow: 0;
+      height: max-content;
+      background-color: transparent;
+    }
+  }
+
+  & .header {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (min-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
+  & .navigation {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-direction: column;
+    height: 100vh;
+    transform-origin: top;
+    overflow: hidden;
+
+    & li {
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      height: max-content;
+      max-height: max-content;
+      flex-direction: row;
+      overflow: auto;
+      scale: 1 1 !important;
+    }
+  }
 
   & .link {
+    display: block;
     position: relative;
     color: var(--color-white);
     text-transform: capitalize;
     font-size: 1.25rem;
     font-weight: 400;
+    text-align: center;
 
     &.coming_soon::after {
       display: none;
@@ -39,11 +102,5 @@
     &.coming_soon.clicked::after {
       display: block;
     }
-  }
-
-  & .navigation {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
   }
 }

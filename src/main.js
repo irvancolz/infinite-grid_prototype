@@ -1,13 +1,8 @@
 import App from "./App";
 import "./index.scss";
+import Topnav from "./Topnav/Topnav";
 
-const $comingSoonLinks = document.querySelectorAll(".link.coming_soon");
-$comingSoonLinks.forEach((el) => {
-  el.addEventListener("click", (e) => {
-    e.preventDefault();
-    el.classList.add("clicked");
-  });
-});
+const topnav = new Topnav();
 
 const app = new App({ content: document.getElementById("app") });
 window.addEventListener("load", async () => {
