@@ -94,8 +94,8 @@ class Card {
       e.stopPropagation();
       this._downloadImg();
     });
-    const $copyBtn = this.$ui.querySelector(".btn-copy");
-    $copyBtn.addEventListener("click", async (e) => {
+    this.$copyBtn = this.$ui.querySelector(".btn-copy");
+    this.$copyBtn.addEventListener("click", async (e) => {
       e.stopPropagation();
       await this._copyImg();
     });
@@ -140,6 +140,7 @@ class Card {
   _hide() {
     this.revealed = false;
     this.$ui.classList.remove("visible");
+    this.$copyBtn.classList.remove("copied");
   }
   _reveal() {
     this.revealed = true;
@@ -149,7 +150,7 @@ class Card {
   async _copyImg() {
     try {
       await copyImageToClipboard(this.src);
-      console.log("image copied");
+      this.$copyBtn.classList.add("copied");
     } catch (err) {
       console.error(err.name, err.message);
     }

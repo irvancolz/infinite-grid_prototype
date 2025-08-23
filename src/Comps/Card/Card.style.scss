@@ -26,8 +26,25 @@
     gap: 0.5rem;
     padding: 0.75rem;
     border-radius: 1000px;
-    backdrop-filter: blur(3px);
-    background-color: #ffffff30;
+    z-index: 1;
+    background-image: linear-gradient(#fff, #6c6c6c29 2%, #dbdbdb38 98%, #fff);
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      pointer-events: none;
+
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      border-radius: 1000px;
+
+      background-color: #00000030;
+      backdrop-filter: blur(6px);
+    }
 
     &.btn-download {
       bottom: 1rem;
@@ -35,6 +52,27 @@
 
     &.btn-copy {
       bottom: 4rem;
+
+      &::after {
+        position: absolute;
+        top: calc(-100% + 1rem);
+        right: 0;
+        content: "copied";
+        font-size: 0.625rem;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1000px;
+        background-color: #ffffff30;
+        color: var(--color-white);
+        display: none;
+      }
+
+      &.copied::after {
+        display: block;
+      }
     }
   }
 
