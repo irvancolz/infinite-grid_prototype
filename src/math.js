@@ -8,4 +8,17 @@ function getWidthInPx(worldWidth = 0) {
   return (SIZES.width / frustumWidth) * worldWidth;
 }
 
-export { getHeightInPx, getWidthInPx };
+function getWorldHeightFromPx(px = 0) {
+  return (frustumHeight / SIZES.height) * px;
+}
+
+function getWorldWidthFromPx(px = 0) {
+  return (frustumWidth / SIZES.width) * px;
+}
+
+export {
+  getHeightInPx,
+  getWidthInPx,
+  getWorldHeightFromPx,
+  getWorldWidthFromPx,
+};

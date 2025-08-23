@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { getWorldWidthFromPx } from "./math";
 
 const CONFIG = {
   row: 8,
@@ -19,9 +20,11 @@ const frustumHeight =
 const frustumWidth = frustumHeight * SIZES.aspect;
 
 const PLANE_RATIO = 853 / 1280;
+const width = Math.max(frustumWidth / 4, getWorldWidthFromPx(160));
+const height = (width * 1280) / 853;
 const PLANE = {
-  width: frustumWidth / 4,
-  height: ((frustumWidth / 4) * 1280) / 853,
+  width,
+  height,
 };
 
 export { PLANE, CONFIG, SIZES, CAMERA_DISTANCE, frustumHeight, frustumWidth };
