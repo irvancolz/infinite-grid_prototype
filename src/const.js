@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
 const CONFIG = {
-  row: 2,
-  column: 4,
+  row: 8,
+  column: 7,
 };
 
 const SIZES = {

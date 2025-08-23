@@ -18,6 +18,7 @@ export default class ResourcesLoader extends EventEmitter {
     this.loader = {};
     this.loader.modelLoader = new GLTFLoader();
     this.loader.textureLoader = new THREE.TextureLoader();
+    this.loader.videoLoader = new THREE.TextureLoader();
   }
 
   load() {
@@ -39,6 +40,17 @@ export default class ResourcesLoader extends EventEmitter {
         this.loader.modelLoader.load(src.path, (texture) => {
           this._loadSource(src, texture);
         });
+      } else if (src.type == "video") {
+        const video = document.createElement("video");
+        video.src = src.path;
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.play();
+
+        const texture = new THREE.VideoTexture(video);
+        this._loadSource(src, texture);
       } else {
         console.error(
           `invalid resources type : '${src.type}' at resources : '${src.name}`

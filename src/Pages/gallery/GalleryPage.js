@@ -10,6 +10,7 @@ import Sizes from "../../Utils/Sizes";
 import Time from "../../Utils/Time";
 import Card from "../../Comps/Card/Card";
 import ResourcesLoader from "../../Utils/ResourcesLoader";
+import resources from "../../resources.json";
 import { Pane } from "tweakpane";
 
 class GalleryPage {
@@ -114,16 +115,7 @@ class GalleryPage {
     this._initUI();
     this._init3D();
 
-    this.images = [];
-    for (let i = 0; i < CONFIG.column * CONFIG.row; i++) {
-      const item = {
-        type: "texture",
-        path: `./${i + 1}.jpg`,
-        name: `img_${i + 1}`,
-      };
-      this.images.push(item);
-    }
-    this.resources = new ResourcesLoader(this.images);
+    this.resources = new ResourcesLoader(resources);
     this.resources.on("finish:loaded", () => {
       this._initCards();
     });
@@ -248,8 +240,8 @@ class GalleryPage {
 
   _createCard(column, row, config) {
     const i = row * CONFIG.column + column + 1;
-    const asset = this.images.find((el) => el.name == `img_${i}`);
-    const texture = this.resources.resources[`img_${i}`].clone();
+    const asset = resources.find((el) => el.name == `${i}`);
+    const texture = this.resources.resources[`${i}`].clone();
     texture.colorSpace = THREE.SRGBColorSpace;
 
     const parent = this.columns.find((el) => {
