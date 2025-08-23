@@ -61,14 +61,22 @@
 
     & li {
       overflow: hidden;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     @media (min-width: 768px) {
       height: max-content;
       max-height: max-content;
       flex-direction: row;
-      overflow: auto;
-      scale: 1 1 !important;
+      overflow: visible;
+      scale: 1 1;
+
+      & li {
+        overflow: visible;
+      }
     }
   }
 
@@ -83,20 +91,29 @@
 
     &.coming_soon::after {
       display: none;
-      content: "coming soon";
-      left: 50%;
-      top: calc(-100% - 0.5rem);
-      translate: -50% 0;
+
+      content: "Coming Soon";
       position: absolute;
+
+      left: calc(100% + 2rem);
+      top: 50%;
+      translate: 0 -50%;
+
       font-family: var(--font-text);
       font-weight: 400;
       padding: 0.1rem 0.45rem;
       border-radius: 1000px;
-      background-color: #ffffff21;
-      backdrop-filter: 1px;
+      background-color: #d7d7d720;
+      backdrop-filter: blur(1px);
       text-transform: capitalize;
       font-size: 0.625rem;
       white-space: nowrap;
+
+      @media (min-width: 768px) {
+        left: 50%;
+        top: calc(-100% + 0.5rem);
+        translate: -50% 0;
+      }
     }
 
     &.coming_soon.clicked::after {
