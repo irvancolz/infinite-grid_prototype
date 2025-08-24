@@ -1,36 +1,92 @@
+@use "../../Styles/mixins";
+
 .gallery {
-  padding: 1.25rem;
+  & .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: uppercase;
+    font-family: var(--font-text);
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+
+    @include mixins.screen-size("md") {
+      display: none;
+    }
+  }
 
   & .img_container {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 1rem;
+    padding: 0 1rem;
+
+    @include mixins.screen-size("md") {
+      padding: 0 1.25rem;
+    }
+
+    @include mixins.screen-size("md") {
+      gap: 0.75rem;
+    }
   }
+
   & .img {
-    flex-basis: calc(50% - 0.385rem);
-    max-width: calc(50% - 0.385rem);
-  }
-  & .img:first-child {
+    border-radius: 0.625rem;
+    overflow: hidden;
     flex-basis: 100%;
-    flex-grow: 1;
-    width: 100%;
-    max-width: 100%;
+    aspect-ratio: 343/420;
+    object-fit: cover;
+
+    &:first-child {
+      flex-basis: 100%;
+      flex-grow: 1;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &:last-child {
+      order: 2;
+
+      @include mixins.screen-size("md") {
+        order: 3;
+      }
+    }
+
+    &:nth-child(2) {
+      order: 3;
+      @include mixins.screen-size("md") {
+        order: 2;
+      }
+    }
+
+    @include mixins.screen-size("md") {
+      aspect-ratio: unset;
+      max-width: calc(50% - 0.385rem);
+      flex-basis: calc(50% - 0.385rem);
+    }
   }
   & .link {
     display: block;
     text-transform: uppercase;
-    margin-top: 1.8rem;
     width: fit-content;
     margin-inline: auto;
 
-    font-size: 3.8rem;
+    font-size: 3rem;
     text-align: center;
     font-family: var(--font-heading);
     font-weight: 900;
+    white-space: nowrap;
 
     background: linear-gradient(180deg, #312573 0%, #5c46d9 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    @include mixins.screen-size("md") {
+      font-size: 3.8rem;
+      margin-top: 1.8rem;
+    }
   }
 }
