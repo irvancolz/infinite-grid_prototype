@@ -1,3 +1,5 @@
+@use "../../Styles/mixins";
+
 .footer {
   background: linear-gradient(
     180deg,
@@ -6,7 +8,11 @@
     #000fc8 65.06%,
     #000 100%
   );
-  padding: 50vh 1.25rem 2rem;
+  padding-bottom: 2.5rem;
+
+  @include mixins.screen-size("md") {
+    padding: 30vh 1.25rem 1rem;
+  }
 
   & .link {
     color: var(--color-white);
@@ -14,6 +20,37 @@
     font-size: 2rem;
     font-family: var(--font-heading);
     font-weight: 400;
+    border-radius: 1000px;
+
+    background-color: var(--color-white);
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    width: 3rem;
+
+    @include mixins.screen-size("md") {
+      background-color: transparent;
+      display: inline;
+      aspect-ratio: unset;
+      width: fit-content;
+    }
+
+    & .label {
+      display: none;
+      @include mixins.screen-size("md") {
+        display: block;
+      }
+    }
+
+    & .icon {
+      fill: var(--color-white);
+      color: var(--color-white);
+
+      display: block;
+      @include mixins.screen-size("md") {
+        display: none;
+      }
+    }
   }
 
   & .navigation {
@@ -21,20 +58,44 @@
     align-items: center;
     justify-content: center;
     gap: 2.25rem;
+    margin-block: 3.75rem;
+
+    @include mixins.screen-size("md") {
+      margin-block: 0 4.325rem;
+    }
   }
 
   & .footer_title {
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 8.7rem;
     font-family: var(--font-heading);
     color: var(--color-white);
     text-align: center;
-    translate: 0 2rem;
+    line-height: normal;
+    font-size: 4rem;
 
     background: linear-gradient(180deg, #f9f7e0 0%, #393d61 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    @include mixins.screen-size("md") {
+      font-size: 8.875rem;
+      white-space: nowrap;
+    }
+  }
+
+  & .copyright {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-white);
+    font-family: var(--font-text);
+    padding-block: 3.75rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+    @include mixins.screen-size("md") {
+      display: none;
+    }
   }
 }
