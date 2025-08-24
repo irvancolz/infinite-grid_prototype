@@ -17,17 +17,29 @@ class Topnav {
     });
 
     this.$menuBtn = document.querySelector(".topnav .btn-menu");
+    if (!this.expanded) {
+      this.$menuBtn.classList.add("closed");
+    }
+
     this.$header = document.querySelector(".topnav .header");
+    if (!this.expanded) {
+      this.$header.classList.add("closed");
+    }
+
     this.$links = document.querySelectorAll(".topnav .navigation .link");
     this.$navigation = document.querySelector(".topnav .navigation");
 
     this.$menuBtn.addEventListener("click", () => {
-      if (!this.expanded) {
-        this.timeline.play();
-      } else {
-        this.timeline.reverse();
-      }
       this.expanded = !this.expanded;
+      if (!this.expanded) {
+        this.timeline.reverse();
+        this.$menuBtn.classList.add("closed");
+        this.$header.classList.add("closed");
+      } else {
+        this.timeline.play();
+        this.$menuBtn.classList.remove("closed");
+        this.$header.classList.remove("closed");
+      }
     });
   }
   _initAnimation() {
@@ -50,6 +62,7 @@ class Topnav {
         this.$header,
         {
           backgroundColor: "transparent",
+          backdropFilter: "none",
         },
         "-= 1"
       );
