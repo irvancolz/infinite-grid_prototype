@@ -34,16 +34,33 @@ class About {
       autoSplit: true,
 
       onSplit: (e) => {
-        return gsap.from(e.lines, {
-          color: "#00000066",
-          stagger: 0.3,
-          scrollTrigger: {
-            target: textReffenece,
-            scrub: true,
-            start: "clamp(30% center)",
-            end: "clamp(40% center)",
-          },
+        const mm = gsap.matchMedia();
+        mm.add("(min-width : 768px)", () => {
+          gsap.from(e.lines, {
+            color: "#00000066",
+            stagger: 0.3,
+            scrollTrigger: {
+              target: textReffenece,
+              scrub: true,
+              start: "clamp(30% center)",
+              end: "clamp(40% center)",
+            },
+          });
         });
+        mm.add("(max-width : 767px)", () => {
+          gsap.from(e.lines, {
+            color: "#00000066",
+            stagger: 0.3,
+            scrollTrigger: {
+              target: textReffenece,
+              scrub: true,
+              start: "clamp(15% center)",
+              end: "clamp(30% center)",
+            },
+          });
+        });
+
+        return mm;
       },
     });
   }
