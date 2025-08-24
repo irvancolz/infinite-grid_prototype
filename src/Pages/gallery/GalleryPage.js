@@ -5,7 +5,6 @@ import Time from "../../Utils/Time";
 import Card from "../../Comps/Card/Card";
 import ResourcesLoader from "../../Utils/ResourcesLoader";
 import resources from "../../resources.json";
-import normalizeWheel from "normalize-wheel-es";
 
 class GalleryPage {
   #CANCEL_DRAG_EVENTS = ["pointerup", "touchend", "touchcancel", "mouseup"];
@@ -21,6 +20,7 @@ class GalleryPage {
       scrollY: 0.04,
       swipeX: 0.5,
       swipeY: 0.5,
+      touch_multiplier: 36,
     };
 
     this.cards = [];
@@ -30,6 +30,7 @@ class GalleryPage {
     this.selected = null;
     this.mouseStart = new THREE.Vector2();
     this.pointer = new THREE.Vector2();
+    this.selector = new THREE.Vector2();
     this.scroll = new THREE.Vector2();
 
     this.scale = new THREE.Vector3();
@@ -114,6 +115,9 @@ class GalleryPage {
           let x = touch ? e.touches[0].clientX : e.clientX;
           let y = touch ? e.touches[0].clientY : e.clientY;
 
+          this.selector.x = (x / this.SIZES.width) * 2 - 1;
+          this.selector.y = -(y / this.SIZES.height) * 2 + 1;
+
           this._handleMouseMove(x, y, touch);
         },
         { passive: false }
@@ -150,8 +154,6 @@ class GalleryPage {
     this.renderer.setPixelRatio(this.SIZES.pixelRatio);
   }
   _handleScroll(e) {
-    const speed = 0.04;
-
     this.scroll.x = -Math.min(100, e.deltaX) * this.config.scrollX;
     this.scroll.y = Math.min(e.deltaY, 100) * this.config.scrollY * 5;
 
@@ -161,27 +163,32 @@ class GalleryPage {
       );
     });
   }
-  _handleMouseMove(x, y) {
+  _handleMouseMove(x, y, touch) {
     this.pointer.x = (x / this.SIZES.width) * 2 - 1;
     this.pointer.y = -(y / this.SIZES.height) * 2 + 1;
 
     if (this.dragged) {
       this.columns.forEach((col) => {
-        col.translation.add(
-          new THREE.Vector3(
-            (this.pointer.x - this.mouseStart.x) * this.config.swipeX,
-            (this.pointer.y - this.mouseStart.y) *
-              this.config.swipeY *
-              col.factor,
-            0
-          )
-        );
+        let translateX =
+          (this.pointer.x - this.mouseStart.x) * this.config.swipeX;
+
+        let translateY =
+          (this.pointer.y - this.mouseStart.y) *
+          this.config.swipeY *
+          col.factor;
+
+        if (touch) {
+          translateY *= this.config.touch_multiplier;
+          console.log(translateY);
+        }
+
+        col.translation.add(new THREE.Vector3(translateX, translateY, 0));
       });
     }
   }
   _loop() {
     if (!this.started) return;
-    this.raycaster.setFromCamera(this.pointer, this.camera);
+    this.raycaster.setFromCamera(this.selector, this.camera);
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     if (intersects.length > 0) {
       this.selected = intersects[0].object.userData.id;
