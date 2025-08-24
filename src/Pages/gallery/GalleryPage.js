@@ -1,11 +1,5 @@
 import * as THREE from "three";
-import {
-  CAMERA_DISTANCE,
-  CONFIG,
-  frustumHeight,
-  frustumWidth,
-  PLANE,
-} from "../../const";
+import { CAMERA_DISTANCE, CONFIG } from "../../const";
 import Sizes from "../../Utils/Sizes";
 import Time from "../../Utils/Time";
 import Card from "../../Comps/Card/Card";
@@ -70,8 +64,8 @@ class GalleryPage {
     );
     this.camera.position.z = CAMERA_DISTANCE;
     // this.camera.position.z = 80;
-    this.camera.position.x = frustumWidth * 0.4;
-    this.camera.position.y = PLANE.height * CONFIG.row * 0.5;
+    this.camera.position.x = this.SIZES.frustumWidth * 0.4;
+    this.camera.position.y = this.SIZES.PLANE.height * CONFIG.row * 0.5;
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.$ui,
@@ -87,6 +81,7 @@ class GalleryPage {
 
     this.resources = new ResourcesLoader(resources);
     this.resources.on("finish:loaded", () => {
+      this._initColumnsCoord();
       this._initCards();
     });
 
@@ -116,6 +111,12 @@ class GalleryPage {
     });
   }
   _resize() {
+    this.columns.forEach((col) => {
+      this._calcColumnFinalPos(col);
+    });
+    this.cards.forEach((card) => {
+      card.resize();
+    });
     //   camera
     this.camera.aspect = this.SIZES.width / this.SIZES.height;
     this.camera.updateProjectionMatrix();
@@ -167,7 +168,7 @@ class GalleryPage {
 
     // update position
     this.columns.forEach((col, i) => {
-      const yTresshold = PLANE.height * CONFIG.row * 2;
+      const yTresshold = this.SIZES.PLANE.height * CONFIG.row * 2;
       const currentYPos = col.group.position.y;
       if (Math.abs(currentYPos) > yTresshold) {
         const dir = currentYPos / Math.abs(currentYPos);
@@ -179,7 +180,7 @@ class GalleryPage {
         col.translation.y = col.group.position.y + offset;
       }
 
-      const xTresshold = PLANE.width * CONFIG.column * 2;
+      const xTresshold = this.SIZES.PLANE.width * CONFIG.column * 2;
       const currentXPos = col.group.position.x;
       if (Math.abs(currentXPos) > xTresshold) {
         const dir = currentXPos / Math.abs(currentXPos);
@@ -222,7 +223,6 @@ class GalleryPage {
       id: i,
       row,
       column,
-      origin: new THREE.Vector3(),
       texture,
       camera: this.camera,
       src: asset.path,
@@ -232,58 +232,73 @@ class GalleryPage {
     parent.cards.push(tile);
     this.cards.push(tile);
   }
-  _initColumns(config) {
+  _initColumns(coord) {
     for (let i = 0; i < CONFIG.column; i++) {
-      const x = config.coord.x * CONFIG.column + i;
-      const y = config.coord.y;
+      const x = coord.x * CONFIG.column + i;
+      const y = coord.y;
       const group = new THREE.Group();
-      const translation = config.pos.clone();
       const factor = 0.0625 + i / 100;
 
       const cards = [];
 
-      const offsetX = i * PLANE.width;
-      translation.add({ x: offsetX, y: 0, z: 0 });
+      const translation = this._getColumnInitialPos(coord);
 
       this.columns.push({
         x,
         y,
+        i,
         group,
         translation,
         factor,
-        origin: translation.clone(),
         cards,
+        coord,
       });
 
-      group.position.copy(translation);
       this.scene.add(group);
     }
   }
-  _initCards() {
-    const coordnPos = [];
+  _initColumnsCoord() {
+    this.columnCoords = [];
+
     for (let x = 0; x < 3; x++) {
       for (let y = 0; y < 3; y++) {
         const coord = new THREE.Vector3(-1, -1, 0).add({ x, y, z: 0 });
 
-        const pos = coord.clone().multiply({
-          x: CONFIG.column * PLANE.width,
-          y: CONFIG.row * PLANE.height,
-          z: 0,
-        });
-
-        coordnPos.push({ coord, pos });
+        this.columnCoords.push(coord);
       }
     }
+  }
+  _getColumnInitialPos(coord = new THREE.Vector3()) {
+    const translation = coord.clone().multiply({
+      x: CONFIG.column * this.SIZES.PLANE.width,
+      y: CONFIG.row * this.SIZES.PLANE.height,
+      z: 0,
+    });
+    return translation;
+  }
+  _calcColumnFinalPos(col) {
+    const translation = this._getColumnInitialPos(col.coord);
+    const offsetX = col.i * this.SIZES.PLANE.width;
+    translation.add({ x: offsetX, y: 0, z: 0 });
 
-    coordnPos.forEach((e) => {
+    col.translation.copy(translation);
+    col.group.position.copy(translation);
+  }
+
+  _initCards() {
+    this.columnCoords.forEach((e) => {
       this._initColumns(e);
     });
 
-    coordnPos.forEach((e) => {
+    this.columns.forEach((col) => {
+      this._calcColumnFinalPos(col);
+    });
+
+    this.columnCoords.forEach((e) => {
       for (let row = 0; row < CONFIG.row; row++) {
         for (let column = 0; column < CONFIG.column; column++) {
-          const coordX = e.coord.x * CONFIG.column + column;
-          const coordY = e.coord.y;
+          const coordX = e.x * CONFIG.column + column;
+          const coordY = e.y;
           this._createCard(column, row, { x: coordX, y: coordY });
         }
       }
