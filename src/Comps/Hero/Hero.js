@@ -8,7 +8,7 @@ class Hero {
       <p class="hero_desc">A World of Hosico in Every Frame</p>
       <p class="hero_desc">we're shooting for the stars</p>
     </div>
-    <video class="hero_video" muted loop autoplay>
+    <video class="hero_video" muted loop autoplay playsinline>
       <source src="/home_hero.mp4" type="video/mp4" />
       <source src="/home_hero.webm" type="video/webm" />
     </video>
