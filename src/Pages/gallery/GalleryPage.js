@@ -5,8 +5,13 @@ import Time from "../../Utils/Time";
 import Card from "../../Comps/Card/Card";
 import ResourcesLoader from "../../Utils/ResourcesLoader";
 import resources from "../../resources.json";
+import normalizeWheel from "normalize-wheel-es";
 
 class GalleryPage {
+  #CANCEL_DRAG_EVENTS = ["pointerup"];
+  #INIT_DRAG_EVENTS = ["pointerdown"];
+  #DRAG_EVENTS = ["pointermove"];
+  #TOUCH_EVENT_MULTIPLIER = 10;
   constructor() {
     this.SIZES = new Sizes();
     this.TIME = new Time();
@@ -22,7 +27,7 @@ class GalleryPage {
     this.cards = [];
     this.raycaster = new THREE.Raycaster();
 
-    this.mousePressed = false;
+    this.dragged = false;
     this.selected = null;
     this.mouseStart = new THREE.Vector2();
     this.pointer = new THREE.Vector2();
@@ -41,13 +46,13 @@ class GalleryPage {
       this._loop();
     });
   }
-  _handleMouseDown(e) {
-    this.mousePressed = true;
-    this.mouseStart.x = (e.clientX / this.SIZES.width) * 2 - 1;
-    this.mouseStart.y = -(e.clientY / this.SIZES.height) * 2 + 1;
+  _handleMouseDown(x, y) {
+    this.dragged = true;
+    this.mouseStart.x = (x / this.SIZES.width) * 2 - 1;
+    this.mouseStart.y = -(y / this.SIZES.height) * 2 + 1;
   }
   _handleMouseUp() {
-    this.mousePressed = false;
+    this.dragged = false;
   }
   _initUI() {
     this.$ui = document.createElement("canvas");
@@ -85,33 +90,57 @@ class GalleryPage {
       this._initCards();
     });
 
-    document.addEventListener("pointerup", () => {
-      this._handleMouseUp();
+    this.#CANCEL_DRAG_EVENTS.forEach((name) => {
+      document.addEventListener(name, (e) => {
+        this._handleMouseUp();
+      });
     });
-    document.addEventListener("pointerleave", () => {
-      this._handleMouseUp();
+
+    this.#INIT_DRAG_EVENTS.forEach((name) => {
+      document.addEventListener(name, (e) => {
+        const touch = name.includes("touch");
+        let x = touch
+          ? e.touches[0].clientX * this.#TOUCH_EVENT_MULTIPLIER
+          : e.clientX;
+        let y = touch ? e.touches[0].clientY : e.clientY;
+
+        if (this.SIZES.width < 768) {
+          // x *= this.#TOUCH_EVENT_MULTIPLIER;
+          y *= this.#TOUCH_EVENT_MULTIPLIER;
+        }
+
+        this._handleMouseDown(x, y);
+      });
     });
-    document.addEventListener("pointerdown", (e) => {
-      this._handleMouseDown(e);
+
+    this.#DRAG_EVENTS.forEach((name) => {
+      document.addEventListener(
+        name,
+        (e) => {
+          e.preventDefault();
+          const touch = name.includes("touch");
+          let x = touch
+            ? e.touches[0].clientX * this.#TOUCH_EVENT_MULTIPLIER
+            : e.clientX;
+          let y = touch
+            ? e.touches[0].clientY * this.#TOUCH_EVENT_MULTIPLIER
+            : e.clientY;
+
+          if (this.SIZES.width < 768) {
+            // x *= this.#TOUCH_EVENT_MULTIPLIER;
+            y *= this.#TOUCH_EVENT_MULTIPLIER;
+          }
+
+          this._handleMouseMove(x, y, touch);
+        },
+        { passive: false }
+      );
     });
-    document.addEventListener("pointermove", (e) => {
-      this._handleMouseMove(e);
-    });
-    document.addEventListener("mouseup", () => {
-      this._handleMouseUp();
-    });
-    document.addEventListener("mouseleave", () => {
-      this._handleMouseUp();
-    });
-    document.addEventListener("mousedown", (e) => {
-      this._handleMouseDown(e);
-    });
-    document.addEventListener("mousemove", (e) => {
-      this._handleMouseMove(e);
-    });
+
     document.addEventListener("wheel", (e) => {
       this._handleScroll(e);
     });
+
     this.$ui.addEventListener("click", () => {
       const filtered = this.cards.filter(
         (el) => el.mesh.userData.id == this.selected
@@ -149,12 +178,11 @@ class GalleryPage {
       );
     });
   }
-  _handleMouseMove(e) {
-    this.pointer.x = (e.clientX / this.SIZES.width) * 2 - 1;
-    this.pointer.y = -(e.clientY / this.SIZES.height) * 2 + 1;
+  _handleMouseMove(x, y) {
+    this.pointer.x = (x / this.SIZES.width) * 2 - 1;
+    this.pointer.y = -(y / this.SIZES.height) * 2 + 1;
 
-    const brake = 0.5;
-    if (this.mousePressed) {
+    if (this.dragged) {
       this.columns.forEach((col) => {
         col.translation.add(
           new THREE.Vector3(

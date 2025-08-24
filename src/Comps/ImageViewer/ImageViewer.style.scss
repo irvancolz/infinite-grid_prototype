@@ -1,3 +1,5 @@
+@use "../../Styles/mixins";
+
 #image_viewer {
   display: none;
 
@@ -38,9 +40,10 @@
 
   & .img {
     height: 100%;
-    min-height: 100%;
-    max-height: 100%;
-    flex-grow: 1;
+    aspect-ratio: 853 / 1280;
+
+    @include mixins.screen-size("md") {
+    }
   }
 
   & .btn {
