@@ -36,7 +36,7 @@
     -webkit-text-fill-color: transparent;
 
     @include mixins.screen-size("md") {
-      translate: 0 2rem;
+      translate: 0 6rem;
       margin: 0rem 1rem 60vh;
       font-size: 8.7rem;
     }
