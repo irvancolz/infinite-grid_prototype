@@ -17,7 +17,7 @@
     pointer-events: all;
     cursor: pointer;
     display: block;
-    transition: all 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out;
 
     &:hover {
       background: linear-gradient(
@@ -77,7 +77,7 @@
 
       &::after {
         position: absolute;
-        top: calc(-100% + 1rem);
+        top: calc(-100% + 0.25rem);
         right: 0;
         content: "copied";
         font-size: 0.625rem;
