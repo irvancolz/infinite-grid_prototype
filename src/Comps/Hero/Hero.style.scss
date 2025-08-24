@@ -1,42 +1,70 @@
+@use "../../Styles/mixins";
+
 .hero {
   position: relative;
   & .hero_video {
     position: absolute;
     top: 0;
-    width: 100vw;
+    left: 50%;
+    translate: -50% 0;
     z-index: -1;
+    height: 100vh;
+
+    @include mixins.screen-size("md") {
+      width: 100vw;
+      height: auto;
+      left: 0;
+      translate: 0 0;
+      // display: none;
+    }
   }
   & .hero_title {
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 8.7rem;
+    font-size: 4.25rem;
+    margin: 0 0 60vh;
+
     font-family: var(--font-heading);
     color: var(--color-white);
     text-align: center;
-    margin: 0rem 1rem 60vh;
-    translate: 0 2rem;
+    translate: 0 2.6rem;
 
     background: linear-gradient(180deg, #f9f7e0 0%, #393d61 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    @include mixins.screen-size("md") {
+      translate: 0 2rem;
+      margin: 0rem 1rem 60vh;
+      font-size: 8.7rem;
+    }
   }
   & .hero_description_container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-inline: 3.75rem;
+    margin-inline: 1.25rem;
+
+    @include mixins.screen-size("md") {
+      margin-inline: 3.75rem;
+    }
   }
 
   & .hero_desc {
     font-family: var(--font-text);
-    font-size: 1.1rem;
     font-style: normal;
+    font-size: 1rem;
     font-weight: 400;
     line-height: 110%;
     letter-spacing: -0.72px;
     text-transform: uppercase;
-    max-width: 10em;
+    max-width: 8em;
+
+    @include mixins.screen-size("md") {
+      max-width: 10em;
+      font-size: 1.1rem;
+    }
 
     &:last-child {
       text-align: right;
