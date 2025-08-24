@@ -60,8 +60,34 @@
     gap: 2.25rem;
     margin-block: 3.75rem;
 
+    & li:first-child {
+      order: 2;
+    }
+    & li:nth-child(2) {
+      order: 3;
+    }
+    & li:nth-child(3) {
+      order: 4;
+    }
+    & li:last-child {
+      order: 1;
+    }
+
     @include mixins.screen-size("md") {
       margin-block: 0 4.325rem;
+
+      & li:first-child {
+        order: 1;
+      }
+      & li:nth-child(2) {
+        order: 2;
+      }
+      & li:nth-child(3) {
+        order: 3;
+      }
+      & li:last-child {
+        order: 4;
+      }
     }
   }
 
