@@ -1,5 +1,4 @@
 import { CAMERA_DISTANCE } from "../const";
-import { getWorldWidthFromPx } from "../math";
 import EventEmitter from "./EventEmitter";
 import * as THREE from "three";
 
@@ -30,7 +29,10 @@ export default class Sizes extends EventEmitter {
     this.frustumWidth = this.frustumHeight * this.aspect;
 
     this.PLANE_RATIO = 853 / 1280;
-    const width = Math.max(this.frustumWidth / 4, getWorldWidthFromPx(160));
+    const width = Math.max(
+      this.frustumWidth / 4,
+      this.getWorldWidthFromPx(160)
+    );
     const height = (width * 1280) / 853;
     this.PLANE = {
       width,
