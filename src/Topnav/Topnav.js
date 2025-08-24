@@ -36,6 +36,7 @@ class Topnav {
     this.mm.add("(max-width: 768px)", () => {
       this.timeline.from(this.$navigation, {
         scaleY: 0,
+        height: 0,
       });
       this.timeline.from(
         this.$links,
