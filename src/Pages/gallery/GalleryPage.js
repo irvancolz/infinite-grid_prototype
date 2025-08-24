@@ -85,6 +85,18 @@ class GalleryPage {
       this._initCards();
     });
 
+    document.addEventListener("pointerup", () => {
+      this._handleMouseUp();
+    });
+    document.addEventListener("pointerleave", () => {
+      this._handleMouseUp();
+    });
+    document.addEventListener("pointerdown", (e) => {
+      this._handleMouseDown(e);
+    });
+    document.addEventListener("pointermove", (e) => {
+      this._handleMouseMove(e);
+    });
     document.addEventListener("mouseup", () => {
       this._handleMouseUp();
     });
