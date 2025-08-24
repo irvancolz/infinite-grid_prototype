@@ -8,10 +8,9 @@ import resources from "../../resources.json";
 import normalizeWheel from "normalize-wheel-es";
 
 class GalleryPage {
-  #CANCEL_DRAG_EVENTS = ["pointerup"];
-  #INIT_DRAG_EVENTS = ["pointerdown"];
-  #DRAG_EVENTS = ["pointermove"];
-  #TOUCH_EVENT_MULTIPLIER = 10;
+  #CANCEL_DRAG_EVENTS = ["pointerup", "touchend", "touchcancel", "mouseup"];
+  #INIT_DRAG_EVENTS = ["pointerdown", "touchstart", "mousedown"];
+  #DRAG_EVENTS = ["pointermove", "touchmove", "mousemove"];
   constructor() {
     this.SIZES = new Sizes();
     this.TIME = new Time();
@@ -99,15 +98,8 @@ class GalleryPage {
     this.#INIT_DRAG_EVENTS.forEach((name) => {
       document.addEventListener(name, (e) => {
         const touch = name.includes("touch");
-        let x = touch
-          ? e.touches[0].clientX * this.#TOUCH_EVENT_MULTIPLIER
-          : e.clientX;
+        let x = touch ? e.touches[0].clientX : e.clientX;
         let y = touch ? e.touches[0].clientY : e.clientY;
-
-        if (this.SIZES.width < 768) {
-          // x *= this.#TOUCH_EVENT_MULTIPLIER;
-          y *= this.#TOUCH_EVENT_MULTIPLIER;
-        }
 
         this._handleMouseDown(x, y);
       });
@@ -119,17 +111,8 @@ class GalleryPage {
         (e) => {
           e.preventDefault();
           const touch = name.includes("touch");
-          let x = touch
-            ? e.touches[0].clientX * this.#TOUCH_EVENT_MULTIPLIER
-            : e.clientX;
-          let y = touch
-            ? e.touches[0].clientY * this.#TOUCH_EVENT_MULTIPLIER
-            : e.clientY;
-
-          if (this.SIZES.width < 768) {
-            // x *= this.#TOUCH_EVENT_MULTIPLIER;
-            y *= this.#TOUCH_EVENT_MULTIPLIER;
-          }
+          let x = touch ? e.touches[0].clientX : e.clientX;
+          let y = touch ? e.touches[0].clientY : e.clientY;
 
           this._handleMouseMove(x, y, touch);
         },
