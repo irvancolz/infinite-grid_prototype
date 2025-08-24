@@ -89,6 +89,10 @@
     font-weight: 400;
     text-align: center;
 
+    &.name {
+      font-weight: 900;
+    }
+
     &.coming_soon::after {
       display: none;
 
