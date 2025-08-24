@@ -39,10 +39,13 @@
   }
 
   & .img {
-    height: 100%;
     aspect-ratio: 853 / 1280;
+    width: 100%;
+    height: auto;
 
     @include mixins.screen-size("md") {
+      height: 100%;
+      width: auto;
     }
   }
 
