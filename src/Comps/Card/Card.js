@@ -1,16 +1,16 @@
 import * as THREE from "three";
-import { PLANE, SIZES } from "../../const";
-import { getHeightInPx, getWidthInPx } from "../../math";
+import Sizes from "../../Utils/Sizes";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import { copyImageToClipboard } from "copy-image-clipboard";
 
 class Card {
   #ALLOWED_COPY_FORMAT = ["png", "jpg", "jpeg"];
-  constructor({ row, column, origin, texture, id, camera, src }) {
+  constructor({ row, column, texture, id, camera, src }) {
+    this.SIZES = new Sizes();
     this.id = id;
     this.row = row;
     this.column = column;
-    this.origin = origin;
+    this.origin = new THREE.Vector3();
     this.texture = texture;
     this.rotation = new THREE.Vector3();
     this.camera = camera;
@@ -18,14 +18,23 @@ class Card {
     this.src = src;
     this.scrollSpeed = 1;
     this.$container = document.getElementById("app");
+    this._initialWidth = this.SIZES.PLANE.width;
+    this._initialHeight = this.SIZES.PLANE.height;
+    this.scale = new THREE.Vector3(
+      this.SIZES.PLANE.width / this._initialWidth,
+      this.SIZES.PLANE.height / this._initialHeight,
+      1
+    );
 
     this.imgViewer = new ImageViewer();
 
     this.init();
   }
   _init3D() {
-    const gap = 0;
-    this.geometry = new THREE.PlaneGeometry(PLANE.width, PLANE.height);
+    this.geometry = new THREE.PlaneGeometry(
+      this.SIZES.PLANE.width,
+      this.SIZES.PLANE.height
+    );
     this.material = new THREE.MeshBasicMaterial({
       map: this.texture,
       side: THREE.DoubleSide,
@@ -34,11 +43,7 @@ class Card {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.userData.id = this.id;
 
-    const x = 0;
-    const y = this.row * PLANE.height;
-
-    this.center = this.origin.clone().add({ x, y, z: 0 });
-
+    this.mesh.scale.copy(this.scale);
     this.mesh.position.copy(this.center);
   }
   _initDOM() {
@@ -86,8 +91,6 @@ class Card {
     </button>
     `;
 
-    this.widthPx = getWidthInPx(PLANE.width);
-    this.heightPx = getHeightInPx(PLANE.height);
     this.$ui.style.width = `${this.widthPx}px`;
     this.$ui.style.height = `${this.heightPx}px`;
 
@@ -119,6 +122,8 @@ class Card {
     });
   }
   init() {
+    this._calcPosition();
+    this._calcSize();
     this._init3D();
     this._initDOM();
   }
@@ -126,11 +131,12 @@ class Card {
     if (this.revealed) {
       const screen = position.clone().add(this.center);
       screen.project(this.camera);
-      const x = (screen.x * 0.5 + 0.5) * SIZES.width - this.widthPx * 0.5;
-      const y = (-screen.y * 0.5 + 0.5) * SIZES.height - this.heightPx * 0.5;
+      const x = (screen.x * 0.5 + 0.5) * this.SIZES.width - this.widthPx * 0.5;
+      const y =
+        (-screen.y * 0.5 + 0.5) * this.SIZES.height - this.heightPx * 0.5;
       this.$ui.style.left = x + "px";
       this.$ui.style.top = y + "px";
-      this.$ui.style.scale = `${this.mesh.scale.x} ${this.mesh.scale.y}`;
+      this.$ui.style.scale = `${this.scale.x} ${this.scale.y}`;
     }
   }
   dispose() {
@@ -178,6 +184,29 @@ class Card {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+  resize() {
+    this._calcPosition();
+
+    this.mesh.scale.set(
+      this.SIZES.PLANE.width / this._initialWidth,
+      this.SIZES.PLANE.height / this._initialHeight,
+      1
+    );
+    this.mesh.position.copy(this.center);
+
+    this._calcSize();
+    this.$ui.style.width = `${this.widthPx}px`;
+    this.$ui.style.height = `${this.heightPx}px`;
+  }
+  _calcPosition() {
+    const y = this.row * this.SIZES.PLANE.height;
+
+    this.center = this.origin.clone().add({ x: 0, y, z: 0 });
+  }
+  _calcSize() {
+    this.widthPx = this.SIZES.getWidthInPx(this.SIZES.PLANE.width);
+    this.heightPx = this.SIZES.getHeightInPx(this.SIZES.PLANE.height);
   }
 }
 
