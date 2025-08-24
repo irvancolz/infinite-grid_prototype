@@ -91,13 +91,13 @@ class GalleryPage {
     });
 
     this.#CANCEL_DRAG_EVENTS.forEach((name) => {
-      document.addEventListener(name, (e) => {
+      this.$ui.addEventListener(name, (e) => {
         this._handleMouseUp();
       });
     });
 
     this.#INIT_DRAG_EVENTS.forEach((name) => {
-      document.addEventListener(name, (e) => {
+      this.$ui.addEventListener(name, (e) => {
         const touch = name.includes("touch");
         let x = touch ? e.touches[0].clientX : e.clientX;
         let y = touch ? e.touches[0].clientY : e.clientY;
@@ -107,7 +107,7 @@ class GalleryPage {
     });
 
     this.#DRAG_EVENTS.forEach((name) => {
-      document.addEventListener(
+      this.$ui.addEventListener(
         name,
         (e) => {
           e.preventDefault();
@@ -124,7 +124,7 @@ class GalleryPage {
       );
     });
 
-    document.addEventListener("wheel", (e) => {
+    this.$ui.addEventListener("wheel", (e) => {
       this._handleScroll(e);
     });
 
@@ -179,7 +179,6 @@ class GalleryPage {
 
         if (touch) {
           translateY *= this.config.touch_multiplier;
-          console.log(translateY);
         }
 
         col.translation.add(new THREE.Vector3(translateX, translateY, 0));
