@@ -1,19 +1,26 @@
-import { frustumHeight, frustumWidth, SIZES } from "./const";
+import Sizes from "./Utils/Sizes";
 
 function getHeightInPx(worldHeight = 0) {
-  return (SIZES.height / frustumHeight) * worldHeight;
+  const SIZES = new Sizes();
+  return (SIZES.height / SIZES.frustumHeight) * worldHeight;
 }
 
 function getWidthInPx(worldWidth = 0) {
-  return (SIZES.width / frustumWidth) * worldWidth;
+  const SIZES = new Sizes();
+
+  return (SIZES.width / SIZES.frustumWidth) * worldWidth;
 }
 
 function getWorldHeightFromPx(px = 0) {
-  return (frustumHeight / SIZES.height) * px;
+  const SIZES = new Sizes();
+
+  return (SIZES.frustumHeight / SIZES.height) * px;
 }
 
 function getWorldWidthFromPx(px = 0) {
-  return (frustumWidth / SIZES.width) * px;
+  const SIZES = new Sizes();
+
+  return (SIZES.frustumWidth / SIZES.width) * px;
 }
 
 export {
