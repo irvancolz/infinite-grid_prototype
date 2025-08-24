@@ -34,9 +34,6 @@ class Topnav {
     this.mm = gsap.matchMedia();
     this.timeline = gsap.timeline({ paused: true });
     this.mm.add("(max-width: 768px)", () => {
-      this.timeline.from(this.$menuBtn, {
-        rotateZ: 45,
-      });
       this.timeline.from(this.$navigation, {
         scaleY: 0,
       });
