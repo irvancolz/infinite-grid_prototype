@@ -4,6 +4,7 @@ class Hero {
     this.$ui.className = "hero";
     this.$ui.innerHTML = `
     <h1 class="hero_title">Hosico gallery</h1>
+    <div class="spacer"></div>
     <div class="hero_description_container">
       <p class="hero_desc">A World of Hosico in Every Frame</p>
       <p class="hero_desc">we're shooting for the stars</p>
