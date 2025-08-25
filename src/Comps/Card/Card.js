@@ -143,7 +143,6 @@ class Card {
     this._hide();
     this.geometry.dispose();
     this.material.dispose();
-    // this.$container.removeChild(this.$ui);
   }
   handleClick() {
     this._toggle();

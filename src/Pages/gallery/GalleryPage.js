@@ -46,7 +46,11 @@ class GalleryPage {
       this._loop();
     });
   }
-  _handleMouseDown(x, y) {
+  _handleMouseDown(e) {
+    const touch = e.type.includes("touch");
+    let x = touch ? e.touches[0].clientX : e.clientX;
+    let y = touch ? e.touches[0].clientY : e.clientY;
+
     this.dragged = true;
     this.mouseStart.x = (x / this.SIZES.width) * 2 - 1;
     this.mouseStart.y = -(y / this.SIZES.height) * 2 + 1;
@@ -91,40 +95,28 @@ class GalleryPage {
     });
 
     this.#CANCEL_DRAG_EVENTS.forEach((name) => {
-      this.$ui.addEventListener(name, (e) => {
+      document.addEventListener(name, (e) => {
         this._handleMouseUp();
       });
     });
 
     this.#INIT_DRAG_EVENTS.forEach((name) => {
-      this.$ui.addEventListener(name, (e) => {
-        const touch = name.includes("touch");
-        let x = touch ? e.touches[0].clientX : e.clientX;
-        let y = touch ? e.touches[0].clientY : e.clientY;
-
-        this._handleMouseDown(x, y);
+      document.addEventListener(name, (e) => {
+        this._handleMouseDown(e);
       });
     });
 
     this.#DRAG_EVENTS.forEach((name) => {
-      this.$ui.addEventListener(
+      document.addEventListener(
         name,
         (e) => {
-          e.preventDefault();
-          const touch = name.includes("touch");
-          let x = touch ? e.touches[0].clientX : e.clientX;
-          let y = touch ? e.touches[0].clientY : e.clientY;
-
-          this.selector.x = (x / this.SIZES.width) * 2 - 1;
-          this.selector.y = -(y / this.SIZES.height) * 2 + 1;
-
-          this._handleMouseMove(x, y, touch);
+          this._handleMouseMove(e);
         },
         { passive: false }
       );
     });
 
-    this.$ui.addEventListener("wheel", (e) => {
+    document.addEventListener("wheel", (e) => {
       this._handleScroll(e);
     });
 
@@ -163,7 +155,16 @@ class GalleryPage {
       );
     });
   }
-  _handleMouseMove(x, y, touch) {
+  _handleMouseMove(e) {
+    e.preventDefault();
+
+    const touch = e.type.includes("touch");
+    let x = touch ? e.touches[0].clientX : e.clientX;
+    let y = touch ? e.touches[0].clientY : e.clientY;
+
+    this.selector.x = (x / this.SIZES.width) * 2 - 1;
+    this.selector.y = -(y / this.SIZES.height) * 2 + 1;
+
     this.pointer.x = (x / this.SIZES.width) * 2 - 1;
     this.pointer.y = -(y / this.SIZES.height) * 2 + 1;
 
@@ -344,6 +345,32 @@ class GalleryPage {
       card.dispose();
     });
     this.columns.length = 0;
+
+    this.#CANCEL_DRAG_EVENTS.forEach((name) => {
+      document.removeEventListener(name, (e) => {
+        this._handleMouseUp();
+      });
+    });
+
+    this.#INIT_DRAG_EVENTS.forEach((name) => {
+      document.removeEventListener(name, (e) => {
+        this._handleMouseDown(e);
+      });
+    });
+
+    this.#DRAG_EVENTS.forEach((name) => {
+      document.removeEventListener(
+        name,
+        (e) => {
+          this._handleMouseMove(e);
+        },
+        { passive: false }
+      );
+    });
+
+    document.removeEventListener("wheel", (e) => {
+      this._handleScroll(e);
+    });
   }
 }
 
