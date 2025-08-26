@@ -75,7 +75,7 @@
     line-height: 110%;
     letter-spacing: -0.72px;
     text-transform: uppercase;
-    max-width: 7em;
+    max-width: 8em;
 
     @include mixins.screen-size("md") {
       max-width: 10em;
