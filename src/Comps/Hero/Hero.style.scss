@@ -37,7 +37,7 @@
     text-transform: uppercase;
     font-weight: 900;
     font-size: 2.75rem;
-    margin: 0 0 60vh;
+    margin: 0 0 75vh;
     line-height: normal;
 
     font-family: var(--font-heading);
@@ -52,7 +52,7 @@
 
     @include mixins.screen-size("md") {
       translate: 0 6rem;
-      margin: 0rem 0rem 60vh;
+      margin: 0rem 0rem 75vh;
       font-size: 10.375rem;
     }
   }
