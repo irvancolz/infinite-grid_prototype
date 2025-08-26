@@ -18,7 +18,7 @@
 
   & .hero_video {
     position: absolute;
-    top: 3rem;
+    top: 0;
     left: 50%;
     translate: -50% 0;
     z-index: -1;
@@ -36,7 +36,7 @@
   & .hero_title {
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 4.25rem;
+    font-size: 2.75rem;
     margin: 0 0 60vh;
     line-height: normal;
 
@@ -53,7 +53,7 @@
     @include mixins.screen-size("md") {
       translate: 0 6rem;
       margin: 0rem 0rem 60vh;
-      font-size: 8.7rem;
+      font-size: 10.375rem;
     }
   }
   & .hero_description_container {
