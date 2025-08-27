@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import Sizes from "../../Utils/Sizes";
 import ImageViewer from "../ImageViewer/ImageViewer";
-import { copyImageToClipboard } from "copy-image-clipboard";
+import { convertBlobToPng, copyImageToClipboard } from "copy-image-clipboard";
 
 class Card {
   #ALLOWED_COPY_FORMAT = ["png", "jpg", "jpeg"];
@@ -170,8 +170,22 @@ class Card {
   }
   async _copyImg() {
     try {
-      await copyImageToClipboard(this.src);
-      this.$copyBtn.classList.add("copied");
+      if (ClipboardItem.supports("image/svg+xml")) {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "image/png": (async () => {
+              const data = await fetch(this.src);
+              const blob = await data.blob();
+
+              const png = convertBlobToPng(blob);
+              return png;
+            })(),
+          }),
+        ]);
+        this.$copyBtn.classList.add("copied");
+      } else {
+        console.log("SVG images are not supported by the clipboard.");
+      }
     } catch (err) {
       console.error(err.name, err.message);
     }
