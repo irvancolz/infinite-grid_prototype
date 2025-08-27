@@ -170,22 +170,18 @@ class Card {
   }
   async _copyImg() {
     try {
-      if (ClipboardItem.supports("image/svg+xml")) {
-        await navigator.clipboard.write([
-          new ClipboardItem({
-            "image/png": (async () => {
-              const data = await fetch(this.src);
-              const blob = await data.blob();
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "image/png": (async () => {
+            const data = await fetch(this.src);
+            const blob = await data.blob();
 
-              const png = convertBlobToPng(blob);
-              return png;
-            })(),
-          }),
-        ]);
-        this.$copyBtn.classList.add("copied");
-      } else {
-        console.log("SVG images are not supported by the clipboard.");
-      }
+            const png = convertBlobToPng(blob);
+            return png;
+          })(),
+        }),
+      ]);
+      this.$copyBtn.classList.add("copied");
     } catch (err) {
       console.error(err.name, err.message);
     }
