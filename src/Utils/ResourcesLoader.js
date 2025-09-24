@@ -33,7 +33,7 @@ export default class ResourcesLoader extends EventEmitter {
 
           // onError callback
           function (err) {
-            console.error(err);
+            console.log("error loading assets :", src);
           }
         );
       } else if (src.type == "gltfModel") {

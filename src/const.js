@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { getWorldWidthFromPx } from "./math";
 
 const CONFIG = {
-  row: 8,
-  column: 7,
+  row: 9,
+  column: 11,
 };
 
 const SIZES = {
