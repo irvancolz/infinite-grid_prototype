@@ -41,14 +41,9 @@
     line-height: normal;
 
     font-family: var(--font-heading);
-    color: var(--color-white);
+    color: #ffbb00;
     text-align: center;
     translate: 0 4.6rem;
-
-    background: linear-gradient(180deg, #f9f7e0 0%, #393d61 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 
     @include mixins.screen-size("md") {
       translate: 0 4.5rem;

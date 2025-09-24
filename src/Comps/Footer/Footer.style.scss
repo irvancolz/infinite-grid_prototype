@@ -95,15 +95,11 @@
     text-transform: uppercase;
     font-weight: 900;
     font-family: var(--font-heading);
-    color: var(--color-white);
     text-align: center;
     line-height: normal;
     font-size: 4rem;
 
-    background: linear-gradient(180deg, #f9f7e0 0%, #393d61 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffbb00;
 
     @include mixins.screen-size("md") {
       font-size: 8.875rem;
